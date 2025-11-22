@@ -85,6 +85,26 @@ const experiences: Experience[] = [
       'Partnered with platform and services teams to keep client experiences performant and responsive.',
     ],
   },
+  {
+    title: 'Master of Science · Computer Science',
+    place: 'Georgia Institute of Technology · OMSCS',
+    period: 'Aug 2019 — May 2022',
+    focus: 'Online MS in Computer Science with emphasis on scalable systems and human-centered computing.',
+    highlights: [
+      'Completed OMSCS while working full time, focusing on distributed systems and machine learning coursework.',
+      'Applied research learnings to production features, improving rigor around experiments and reliability.',
+    ],
+  },
+  {
+    title: 'Bachelor of Engineering · Computer Science',
+    place: 'Southern University of Science and Technology',
+    period: 'Sep 2015 — Jun 2019',
+    focus: 'Built foundations in software engineering, algorithms, and applied research.',
+    highlights: [
+      'Collaborated on robotics and sensor projects blending software with hardware interfaces.',
+      'Graduated with strong fundamentals that support platform and client engineering work.',
+    ],
+  },
 ];
 
 const writing = [
