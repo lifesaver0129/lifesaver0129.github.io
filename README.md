@@ -19,3 +19,13 @@ npm run preview
 ```
 
 Static assets live in `public/`, React code in `src/`. The published site keeps the existing `CNAME` for the custom domain.
+
+## Deploy to GitHub Pages (`gh-pages` branch)
+
+This workflow keeps build artifacts out of `master` while serving from `gh-pages`:
+
+```bash
+npm run deploy:gh
+```
+
+The script builds, checks out a `gh-pages` worktree, copies `dist/` (including `CNAME`), commits, and pushes `gh-pages`. In the repo settings, set GitHub Pages to serve from the `gh-pages` branch (root).
