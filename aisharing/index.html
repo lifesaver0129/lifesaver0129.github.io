@@ -1,0 +1,1256 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>近期 AI 新能力 Update</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #070a0f;
+      }
+
+      .p2-body {
+        color: #f5f8fc;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      #part-2-ai-trends {
+        --p2-bg: #070a0f;
+        --p2-panel: rgba(14, 21, 32, 0.82);
+        --p2-panel-strong: rgba(22, 32, 47, 0.92);
+        --p2-line: rgba(255, 255, 255, 0.13);
+        --p2-line-strong: rgba(255, 255, 255, 0.24);
+        --p2-text: #f5f8fc;
+        --p2-soft: #dbe6f4;
+        --p2-muted: #9faec2;
+        --p2-cyan: #4ed9ff;
+        --p2-green: #70e3a0;
+        --p2-amber: #f2c86c;
+        --p2-coral: #ff866f;
+        --p2-blue: #8ab3ff;
+        --p2-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        color: var(--p2-text);
+        background:
+          linear-gradient(135deg, rgba(10, 17, 28, 0.98), rgba(7, 10, 15, 0.98) 58%, rgba(17, 23, 33, 0.98)),
+          var(--p2-bg);
+      }
+
+      #part-2-ai-trends * {
+        box-sizing: border-box;
+      }
+
+      #part-2-ai-trends::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent 82%);
+      }
+
+      #part-2-ai-trends button {
+        font: inherit;
+        cursor: pointer;
+      }
+
+      #part-2-ai-trends button:focus-visible {
+        outline: 2px solid rgba(78, 217, 255, 0.72);
+        outline-offset: 3px;
+      }
+
+      #part-2-ai-trends .p2-topbar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        width: 100%;
+        padding: 16px 28px;
+        border-bottom: 1px solid var(--p2-line);
+        background: rgba(7, 10, 15, 0.72);
+        backdrop-filter: blur(18px);
+      }
+
+      #part-2-ai-trends .p2-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--p2-soft);
+        font-size: 0.95rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      #part-2-ai-trends .p2-brand-mark {
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        border: 1px solid rgba(78, 217, 255, 0.42);
+        border-radius: 8px;
+        color: var(--p2-cyan);
+        background: rgba(78, 217, 255, 0.08);
+        font-size: 0.82rem;
+      }
+
+      #part-2-ai-trends .p2-progress {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 240px;
+        color: var(--p2-muted);
+        font-size: 0.86rem;
+      }
+
+      #part-2-ai-trends .p2-progress-track {
+        flex: 1;
+        height: 5px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      #part-2-ai-trends .p2-progress-bar {
+        display: block;
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--p2-cyan), var(--p2-green), var(--p2-amber));
+        transition: width 180ms ease;
+      }
+
+      #part-2-ai-trends .p2-deck {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+      }
+
+      #part-2-ai-trends .p2-slide {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        padding: 92px 42px 92px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(28px);
+        transition:
+          opacity 220ms ease,
+          transform 220ms ease,
+          visibility 220ms ease;
+      }
+
+      #part-2-ai-trends .p2-slide.is-active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+      }
+
+      #part-2-ai-trends .p2-slide-inner {
+        width: min(1180px, 100%);
+        max-height: calc(100vh - 184px);
+      }
+
+      #part-2-ai-trends .p2-trend-grid,
+      #part-2-ai-trends .p2-wrap-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+        gap: 28px;
+        align-items: center;
+      }
+
+      #part-2-ai-trends .p2-cover-grid {
+        display: grid;
+        gap: 30px;
+        align-items: center;
+      }
+
+      #part-2-ai-trends .p2-kicker {
+        margin: 0 0 14px;
+        color: var(--p2-cyan);
+        font-size: 0.98rem;
+        font-weight: 800;
+      }
+
+      #part-2-ai-trends h1,
+      #part-2-ai-trends h2,
+      #part-2-ai-trends h3,
+      #part-2-ai-trends p {
+        letter-spacing: 0;
+      }
+
+      #part-2-ai-trends h1 {
+        margin: 0;
+        color: #ffffff;
+        font-size: clamp(3rem, 7vw, 5.7rem);
+        line-height: 1.02;
+        font-weight: 850;
+      }
+
+      #part-2-ai-trends h2 {
+        margin: 0;
+        color: #ffffff;
+        font-size: clamp(2.1rem, 4.6vw, 4rem);
+        line-height: 1.08;
+        font-weight: 820;
+      }
+
+      #part-2-ai-trends h3 {
+        margin: 0;
+        color: #ffffff;
+      }
+
+      #part-2-ai-trends .p2-subtitle {
+        margin: 18px 0 0;
+        color: var(--p2-soft);
+        font-size: clamp(1.22rem, 2.2vw, 1.72rem);
+        line-height: 1.45;
+        font-weight: 650;
+      }
+
+      #part-2-ai-trends .p2-lede {
+        margin: 24px 0 0;
+        color: var(--p2-muted);
+        font-size: 1.12rem;
+        line-height: 1.75;
+      }
+
+      #part-2-ai-trends .p2-card {
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        background: var(--p2-panel);
+        box-shadow: var(--p2-shadow);
+      }
+
+      #part-2-ai-trends .p2-talk-frame {
+        padding: 22px;
+        background:
+          linear-gradient(160deg, rgba(78, 217, 255, 0.08), rgba(112, 227, 160, 0.05)),
+          var(--p2-panel);
+      }
+
+      #part-2-ai-trends .p2-talk-frame h3 {
+        margin-bottom: 14px;
+        font-size: 1.3rem;
+      }
+
+      #part-2-ai-trends .p2-talk-frame ol {
+        display: grid;
+        gap: 13px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        counter-reset: p2-agenda;
+      }
+
+      #part-2-ai-trends .p2-talk-frame li {
+        counter-increment: p2-agenda;
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 12px;
+        align-items: start;
+        color: var(--p2-soft);
+        line-height: 1.55;
+      }
+
+      #part-2-ai-trends .p2-talk-frame li::before {
+        content: counter(p2-agenda);
+        display: grid;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        color: var(--p2-cyan);
+        background: rgba(78, 217, 255, 0.1);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      #part-2-ai-trends .p2-trend-tabs {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 30px;
+      }
+
+      #part-2-ai-trends .p2-mini-card {
+        display: grid;
+        align-content: space-between;
+        min-height: 128px;
+        padding: 16px;
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        color: inherit;
+        background: rgba(255, 255, 255, 0.045);
+        text-align: left;
+        transition:
+          transform 150ms ease,
+          border-color 150ms ease,
+          background 150ms ease;
+      }
+
+      #part-2-ai-trends .p2-mini-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--p2-line-strong);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      #part-2-ai-trends .p2-mini-card span {
+        display: block;
+        margin-bottom: 14px;
+        color: var(--p2-muted);
+        font-size: 0.86rem;
+      }
+
+      #part-2-ai-trends .p2-mini-card strong {
+        display: block;
+        color: var(--p2-text);
+        font-size: 1.08rem;
+        line-height: 1.35;
+      }
+
+      #part-2-ai-trends .p2-mini-card em {
+        display: block;
+        margin-top: 8px;
+        color: var(--p2-soft);
+        font-size: 0.96rem;
+        font-style: normal;
+        line-height: 1.45;
+      }
+
+      #part-2-ai-trends .p2-trend-main {
+        display: grid;
+        gap: 16px;
+      }
+
+      #part-2-ai-trends .p2-trend-title-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      #part-2-ai-trends .p2-pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 5px 10px;
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        color: var(--p2-soft);
+        background: rgba(255, 255, 255, 0.05);
+        font-size: 0.86rem;
+        white-space: nowrap;
+      }
+
+      #part-2-ai-trends .p2-reference-button,
+      #part-2-ai-trends .p2-nav-button,
+      #part-2-ai-trends .p2-dot,
+      #part-2-ai-trends .p2-source-button {
+        border: 1px solid var(--p2-line);
+        color: var(--p2-soft);
+        background: rgba(255, 255, 255, 0.055);
+      }
+
+      #part-2-ai-trends .p2-reference-button {
+        min-height: 34px;
+        border-radius: 8px;
+        padding: 6px 10px;
+        font-size: 0.84rem;
+        white-space: nowrap;
+      }
+
+      #part-2-ai-trends .p2-reference-button:hover,
+      #part-2-ai-trends .p2-nav-button:hover,
+      #part-2-ai-trends .p2-dot:hover,
+      #part-2-ai-trends .p2-source-button:hover {
+        border-color: var(--p2-line-strong);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      #part-2-ai-trends .p2-column-card {
+        padding: 20px;
+      }
+
+      #part-2-ai-trends .p2-column-card h3 {
+        margin-bottom: 12px;
+        font-size: 1.18rem;
+      }
+
+      #part-2-ai-trends .p2-list {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      #part-2-ai-trends .p2-list li {
+        position: relative;
+        padding-left: 18px;
+        color: var(--p2-soft);
+        line-height: 1.62;
+      }
+
+      #part-2-ai-trends .p2-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.78em;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--p2-cyan);
+      }
+
+      #part-2-ai-trends .p2-list--green li::before {
+        background: var(--p2-green);
+      }
+
+      #part-2-ai-trends .p2-list--amber li::before {
+        background: var(--p2-amber);
+      }
+
+      #part-2-ai-trends .p2-list--coral li::before {
+        background: var(--p2-coral);
+      }
+
+      #part-2-ai-trends .p2-flow {
+        display: grid;
+        gap: 10px;
+      }
+
+      #part-2-ai-trends .p2-flow-step {
+        display: grid;
+        grid-template-columns: 38px 1fr;
+        gap: 12px;
+        align-items: start;
+        padding: 12px;
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      #part-2-ai-trends .p2-flow-step b {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        color: #071019;
+        background: var(--p2-cyan);
+        font-size: 0.86rem;
+      }
+
+      #part-2-ai-trends .p2-flow-step strong {
+        display: block;
+        margin-bottom: 3px;
+        color: #ffffff;
+      }
+
+      #part-2-ai-trends .p2-flow-step span {
+        color: var(--p2-muted);
+        line-height: 1.48;
+      }
+
+      #part-2-ai-trends .p2-impact-card {
+        padding: 20px;
+        background:
+          linear-gradient(150deg, rgba(78, 217, 255, 0.08), rgba(255, 255, 255, 0.035)),
+          var(--p2-panel);
+      }
+
+      #part-2-ai-trends .p2-impact-card h3 {
+        margin-bottom: 12px;
+        font-size: 1.22rem;
+      }
+
+      #part-2-ai-trends .p2-impact-card p {
+        margin: 0;
+        color: var(--p2-soft);
+        line-height: 1.68;
+      }
+
+      #part-2-ai-trends .p2-impact-card .p2-list li {
+        color: var(--p2-soft);
+      }
+
+      #part-2-ai-trends .p2-note {
+        margin: 14px 0 0;
+        padding: 12px;
+        border: 1px solid rgba(242, 200, 108, 0.3);
+        border-radius: 8px;
+        color: var(--p2-soft);
+        background: rgba(242, 200, 108, 0.07);
+        line-height: 1.55;
+      }
+
+      #part-2-ai-trends .p2-note strong {
+        color: #ffffff;
+      }
+
+      #part-2-ai-trends .p2-visual {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+        padding: 14px;
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      #part-2-ai-trends .p2-visual-title {
+        color: var(--p2-muted);
+        font-size: 0.84rem;
+      }
+
+      #part-2-ai-trends .p2-lane {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        align-items: stretch;
+      }
+
+      #part-2-ai-trends .p2-lane--four {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      #part-2-ai-trends .p2-node {
+        min-width: 0;
+        padding: 10px;
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        color: var(--p2-soft);
+        background: rgba(255, 255, 255, 0.05);
+        font-size: 0.86rem;
+        line-height: 1.35;
+        text-align: center;
+      }
+
+      #part-2-ai-trends .p2-node--accent {
+        border-color: rgba(78, 217, 255, 0.38);
+        background: rgba(78, 217, 255, 0.1);
+        color: #ffffff;
+      }
+
+      #part-2-ai-trends .p2-connector {
+        height: 18px;
+        margin: 0 auto;
+        border-left: 1px solid var(--p2-line-strong);
+      }
+
+      #part-2-ai-trends .p2-metric-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      #part-2-ai-trends .p2-metric {
+        min-width: 0;
+        padding: 14px;
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      #part-2-ai-trends .p2-metric span {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--p2-muted);
+        font-size: 0.84rem;
+      }
+
+      #part-2-ai-trends .p2-metric strong {
+        display: block;
+        color: var(--p2-text);
+        font-size: clamp(0.9rem, 1.35vw, 1.02rem);
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      #part-2-ai-trends .p2-metric small {
+        display: block;
+        margin-top: 5px;
+        color: var(--p2-muted);
+        font-size: 0.78rem;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+      }
+
+      #part-2-ai-trends .p2-bottom {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 16px 28px;
+        border-top: 1px solid var(--p2-line);
+        background: rgba(7, 10, 15, 0.72);
+        backdrop-filter: blur(18px);
+      }
+
+      #part-2-ai-trends .p2-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      #part-2-ai-trends .p2-nav-button {
+        min-width: 76px;
+        min-height: 36px;
+        border-radius: 8px;
+        padding: 7px 12px;
+      }
+
+      #part-2-ai-trends .p2-nav-button:disabled {
+        cursor: not-allowed;
+        opacity: 0.42;
+      }
+
+      #part-2-ai-trends .p2-dots {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      #part-2-ai-trends .p2-dots::-webkit-scrollbar {
+        display: none;
+      }
+
+      #part-2-ai-trends .p2-dot {
+        width: 10px;
+        height: 10px;
+        flex: 0 0 auto;
+        border-radius: 999px;
+        padding: 0;
+      }
+
+      #part-2-ai-trends .p2-dot.is-active {
+        width: 34px;
+        background: var(--p2-cyan);
+        border-color: var(--p2-cyan);
+      }
+
+      #part-2-ai-trends .p2-hint {
+        color: var(--p2-muted);
+        font-size: 0.84rem;
+        white-space: nowrap;
+      }
+
+      #part-2-ai-trends .p2-modal {
+        width: min(680px, calc(100% - 32px));
+        border: 1px solid var(--p2-line-strong);
+        border-radius: 8px;
+        padding: 0;
+        color: var(--p2-text);
+        background: #0b111b;
+        box-shadow: var(--p2-shadow);
+      }
+
+      #part-2-ai-trends .p2-modal::backdrop {
+        background: rgba(0, 0, 0, 0.72);
+        backdrop-filter: blur(6px);
+      }
+
+      #part-2-ai-trends .p2-modal-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--p2-line);
+      }
+
+      #part-2-ai-trends .p2-modal-header h3 {
+        margin: 0;
+        font-size: 1.18rem;
+      }
+
+      #part-2-ai-trends .p2-modal-header p {
+        margin: 6px 0 0;
+        color: var(--p2-muted);
+        line-height: 1.5;
+      }
+
+      #part-2-ai-trends .p2-modal-close {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        color: var(--p2-text);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      #part-2-ai-trends .p2-modal-body {
+        display: grid;
+        gap: 12px;
+        padding: 18px 20px 20px;
+      }
+
+      #part-2-ai-trends .p2-ref-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 14px;
+        border: 1px solid var(--p2-line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      #part-2-ai-trends .p2-ref-item h4 {
+        margin: 0 0 6px;
+        color: #ffffff;
+        font-size: 1rem;
+      }
+
+      #part-2-ai-trends .p2-ref-item p {
+        margin: 0;
+        color: var(--p2-muted);
+        line-height: 1.5;
+        font-size: 0.92rem;
+      }
+
+      #part-2-ai-trends .p2-source-button {
+        min-height: 34px;
+        border-radius: 8px;
+        padding: 6px 10px;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 760px) {
+        html,
+        body {
+          overflow: auto;
+        }
+
+        #part-2-ai-trends {
+          min-height: 100vh;
+          height: auto;
+          overflow: visible;
+        }
+
+        #part-2-ai-trends .p2-topbar,
+        #part-2-ai-trends .p2-bottom {
+          position: sticky;
+        }
+
+        #part-2-ai-trends .p2-topbar {
+          top: 0;
+        }
+
+        #part-2-ai-trends .p2-bottom {
+          bottom: 0;
+        }
+
+        #part-2-ai-trends .p2-slide {
+          min-height: calc(100vh - 136px);
+          padding: 76px 22px 78px;
+        }
+
+        #part-2-ai-trends .p2-slide-inner {
+          max-height: none;
+        }
+
+        #part-2-ai-trends .p2-trend-grid,
+        #part-2-ai-trends .p2-wrap-grid {
+          grid-template-columns: 1fr;
+        }
+
+        #part-2-ai-trends .p2-trend-tabs,
+        #part-2-ai-trends .p2-metric-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        #part-2-ai-trends .p2-topbar,
+        #part-2-ai-trends .p2-bottom {
+          padding: 12px 14px;
+        }
+
+        #part-2-ai-trends .p2-progress,
+        #part-2-ai-trends .p2-hint {
+          display: none;
+        }
+
+        #part-2-ai-trends .p2-slide {
+          padding: 72px 14px 76px;
+        }
+
+        #part-2-ai-trends .p2-trend-title-row,
+        #part-2-ai-trends .p2-ref-item,
+        #part-2-ai-trends .p2-modal-header {
+          grid-template-columns: 1fr;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body class="p2-body">
+    <section id="part-2-ai-trends" aria-label="近期 AI 新能力 Update">
+      <header class="p2-topbar">
+        <div class="p2-brand"><span class="p2-brand-mark">P2</span><span>近期 AI 新能力 Update</span></div>
+        <div class="p2-progress" aria-hidden="true">
+          <span data-p2-page>01 / 05</span>
+          <div class="p2-progress-track"><span class="p2-progress-bar" data-p2-progress></span></div>
+        </div>
+      </header>
+
+      <main class="p2-deck">
+        <section class="p2-slide is-active" data-p2-slide>
+          <div class="p2-slide-inner p2-cover-grid">
+            <div>
+              <h1>近期 AI 新能力 Update</h1>
+              <p class="p2-lede">
+                本部分聚焦四类近期值得关注的 AI 能力演进，结合商业化广告场景，观察它们可能对流量变现、
+                广告策略、广告插入、广告形态优化和收入归因判断带来的新变量。
+              </p>
+              <div class="p2-trend-tabs" aria-label="本页包含的四个趋势">
+                <button class="p2-mini-card" type="button" data-p2-jump="1">
+                  <span>01</span>
+                  <strong>Computer Use</strong>
+                  <em>操作电脑和现有软件的能力</em>
+                </button>
+                <button class="p2-mini-card" type="button" data-p2-jump="2">
+                  <span>02</span>
+                  <strong>WebMCP / Agentic Web</strong>
+                  <em>网站向 Agent 开放工具的能力</em>
+                </button>
+                <button class="p2-mini-card" type="button" data-p2-jump="3">
+                  <span>03</span>
+                  <strong>Effort Control</strong>
+                  <em>控制模型思考深度和算力预算</em>
+                </button>
+                <button class="p2-mini-card" type="button" data-p2-jump="4">
+                  <span>04</span>
+                  <strong>Agentic Commerce</strong>
+                  <em>AI 参与选品、比较和购买链路</em>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="p2-slide" data-p2-slide>
+          <div class="p2-slide-inner p2-trend-grid">
+            <div class="p2-trend-main">
+              <div class="p2-trend-title-row">
+                <div>
+                  <p class="p2-kicker">Trend 01 · Computer Use · 操作电脑能力</p>
+                  <h2>Computer Use：看屏幕、点按钮、操作软件</h2>
+                </div>
+                <button class="p2-reference-button" type="button" data-p2-ref="computer-use">Reference</button>
+              </div>
+
+              <article class="p2-card p2-column-card">
+                <h3>功能与能力</h3>
+                <ul class="p2-list">
+                  <li>读取屏幕内容，识别按钮、输入框、表格、图表、弹窗和页面状态。</li>
+                  <li>通过点击、输入、筛选、复制、下载、截图等界面操作完成任务。</li>
+                  <li>可以跨多个已有系统连续执行，尤其适用于缺少标准 API 的内部后台。</li>
+                  <li>主要适用于查询、核对、截图留证和信息汇总，不适合无人审核地执行高风险线上变更。</li>
+                </ul>
+              </article>
+            </div>
+
+            <aside class="p2-card p2-impact-card">
+              <h3>可能如何影响我们</h3>
+              <ul class="p2-list">
+                <li>日常运营检查可以由 AI 先完成跨系统查询和证据整理，PM 聚焦异常判断。</li>
+                <li>收入异常、实验配置、广告填充、素材状态等信息，可以更快形成可复核线索。</li>
+                <li>对广告后台而言，短期价值更多在“辅助操作现有系统”，而不是替代核心策略服务。</li>
+              </ul>
+              <div class="p2-visual" aria-label="Computer Use 示意图">
+                <span class="p2-visual-title">示意：AI 通过界面操作串联后台</span>
+                <div class="p2-lane p2-lane--four">
+                  <div class="p2-node">看屏幕</div>
+                  <div class="p2-node">点选/输入</div>
+                  <div class="p2-node">截图取证</div>
+                  <div class="p2-node p2-node--accent">生成摘要</div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="p2-slide" data-p2-slide>
+          <div class="p2-slide-inner p2-trend-grid">
+            <div class="p2-trend-main">
+              <div class="p2-trend-title-row">
+                <div>
+                  <p class="p2-kicker">Trend 02 · WebMCP / Agentic Web · Agent 可调用工具</p>
+                  <h2>WebMCP：网站把功能开放成 Agent 工具</h2>
+                </div>
+                <button class="p2-reference-button" type="button" data-p2-ref="webmcp">Reference</button>
+              </div>
+
+              <article class="p2-card p2-column-card">
+                <h3>功能与能力</h3>
+                <ul class="p2-list p2-list--green">
+                  <li>网站或 Web 应用主动声明可供 Agent 调用的结构化工具，而不是只提供人可点击的页面。</li>
+                  <li>JavaScript functions、HTML forms 等能力可以被包装成机器可读、参数清晰、返回结果稳定的动作。</li>
+                  <li>典型能力包括查询、导出、对比、提交、模拟和审批，目标是提升 Agent 调用的速度、可靠性和可审计性。</li>
+                  <li>对内部系统，关键不只是“开放接口”，还包括权限、日志、口径说明和可回滚边界。</li>
+                </ul>
+              </article>
+            </div>
+
+            <aside class="p2-card p2-impact-card">
+              <h3>可能如何影响我们</h3>
+              <ul class="p2-list p2-list--green">
+                <li>商业化后台可能逐步从“页面可用”演进到“Agent 可调用”，产品设计对象发生扩展。</li>
+                <li>BI、实验平台、广告策略平台需要明确哪些能力可查询、可模拟、可执行、必须审批。</li>
+                <li>指标口径、实验规则、权限边界和操作日志，会成为系统设计中更重要的产品要素。</li>
+              </ul>
+              <div class="p2-metric-grid">
+                <div class="p2-metric"><span>收入查询</span><strong>query_revenue</strong><small>date / scene / platform</small></div>
+                <div class="p2-metric"><span>实验对比</span><strong>compare_ab_test</strong><small>exp_id / metrics</small></div>
+                <div class="p2-metric"><span>看板导出</span><strong>export_dashboard</strong><small>dashboard_id</small></div>
+                <div class="p2-metric"><span>策略模拟</span><strong>simulate_ad_strategy</strong><small>scene / frequency / adload</small></div>
+              </div>
+              <div class="p2-visual" aria-label="WebMCP 示意图">
+                <span class="p2-visual-title">示意：页面能力转为 Agent 工具</span>
+                <div class="p2-lane">
+                  <div class="p2-node">网页表单</div>
+                  <div class="p2-node p2-node--accent">结构化工具</div>
+                  <div class="p2-node">Agent 调用</div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="p2-slide" data-p2-slide>
+          <div class="p2-slide-inner p2-trend-grid">
+            <div class="p2-trend-main">
+              <div class="p2-trend-title-row">
+                <div>
+                  <p class="p2-kicker">Trend 03 · Effort Control · 思考深度控制</p>
+                  <h2>Effort Control：控制模型思考深度和算力预算</h2>
+                </div>
+                <button class="p2-reference-button" type="button" data-p2-ref="effort">Reference</button>
+              </div>
+
+              <article class="p2-card p2-column-card">
+                <h3>功能与能力</h3>
+                <ul class="p2-list p2-list--amber">
+                  <li>Effort 参数用于控制模型在回答时投入多少推理和 token，在质量、速度和成本之间做取舍。</li>
+                  <li>低 effort 适合格式整理、文案润色、简单摘要；高 effort 适合多因素归因、策略判断和复杂解释。</li>
+                  <li>它让“模型思考深度”从隐性消耗变成可配置预算，便于按任务价值分配 AI 成本。</li>
+                  <li>在 token 限额下，需要减少无关上下文，优先提供目标、口径、关键字段和必要样本。</li>
+                </ul>
+              </article>
+            </div>
+
+            <aside class="p2-card p2-impact-card">
+              <h3>可能如何影响我们</h3>
+              <ul class="p2-list p2-list--amber">
+                <li>广告收入归因、实验放量、频控调整等任务，可以按风险和复杂度选择不同推理深度。</li>
+                <li>低风险任务优先追求速度和成本；收入影响大、因果不确定的任务再使用高 effort。</li>
+                <li>与 AI 协作会更强调“上下文工程”：数据先压缩、问题先拆解、结论再验证。</li>
+              </ul>
+              <div class="p2-flow">
+                <div class="p2-flow-step"><b>1</b><div><strong>先压缩输入</strong><span>只保留指标口径、异常区间、实验分组和必要样本。</span></div></div>
+                <div class="p2-flow-step"><b>2</b><div><strong>再选择 effort</strong><span>简单整理用低 effort，归因判断用高 effort。</span></div></div>
+                <div class="p2-flow-step"><b>3</b><div><strong>结果验证</strong><span>要求输出证据、反例、置信度和待补充数据。</span></div></div>
+              </div>
+              <p class="p2-note">
+                <strong>Token 使用建议：</strong>先给结论目标和字段口径；长材料先提取结构化摘要；复杂问题拆成“清洗、定位、归因、建议”多步处理。
+              </p>
+              <div class="p2-visual" aria-label="Effort Control 示意图">
+                <span class="p2-visual-title">示意：按任务风险分配推理成本</span>
+                <div class="p2-lane p2-lane--four">
+                  <div class="p2-node">低风险<br />低 effort</div>
+                  <div class="p2-node">例行分析<br />中 effort</div>
+                  <div class="p2-node p2-node--accent">收入归因<br />高 effort</div>
+                  <div class="p2-node">策略变更<br />人审</div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="p2-slide" data-p2-slide>
+          <div class="p2-slide-inner p2-trend-grid">
+            <div class="p2-trend-main">
+              <div class="p2-trend-title-row">
+                <div>
+                  <p class="p2-kicker">Trend 04 · Agentic Commerce · AI 参与交易决策</p>
+                  <h2>Agentic Commerce：AI 参与选品、比较和购买</h2>
+                </div>
+                <button class="p2-reference-button" type="button" data-p2-ref="commerce">Reference</button>
+              </div>
+
+              <article class="p2-card p2-column-card">
+                <h3>功能与能力</h3>
+                <ul class="p2-list p2-list--coral">
+                  <li>AI 开始参与商品发现、比较、加购、支付和售后支持，购买决策链路从人手动浏览扩展到 Agent 辅助执行。</li>
+                  <li>Universal Commerce Protocol 等协议尝试让 Agent、商家系统和支付方使用共同语言完成交易动作。</li>
+                  <li>商品信息需要可被机器读取和比较，包括价格、库存、权益、评价、兼容性、退换货和履约状态。</li>
+                  <li>广告信息不只影响用户点击，也可能影响 AI 是否纳入候选、如何解释推荐、能否推动交易完成。</li>
+                </ul>
+              </article>
+            </div>
+
+            <aside class="p2-card p2-impact-card">
+              <h3>可能如何影响我们</h3>
+              <ul class="p2-list p2-list--coral">
+                <li>广告触达场景可能从页面曝光进一步延伸到 AI 参与的选品、比较、推荐和购买链路。</li>
+                <li>广告素材需要同时面向用户和 Agent：用户关注表达，Agent 更关注价格、库存、权益、评价和履约证据。</li>
+                <li>远期归因可能不只看点击和转化，还要识别 AI 是否参与推荐、解释、加购或支付决策。</li>
+              </ul>
+              <div class="p2-flow">
+                <div class="p2-flow-step"><b>1</b><div><strong>理解需求</strong><span>把用户的预算、场景、偏好、限制条件转成可检索意图。</span></div></div>
+                <div class="p2-flow-step"><b>2</b><div><strong>筛选候选</strong><span>基于价格、库存、评价、权益、兼容性先过滤商品或品牌。</span></div></div>
+                <div class="p2-flow-step"><b>3</b><div><strong>对比证据</strong><span>比较卖点、评论、退换货、履约和可信度，而不只看创意。</span></div></div>
+                <div class="p2-flow-step"><b>4</b><div><strong>推荐与购买</strong><span>给出推荐理由，并可能进一步进入加购、支付和履约链路。</span></div></div>
+              </div>
+              <p class="p2-lede">
+                商业化指标可以再延伸到 Agent Inclusion Rate、Agent Recommendation Share、Agent Citation Rate 和 Agent-mediated Conversion。
+              </p>
+              <div class="p2-visual" aria-label="Agentic Commerce 示意图">
+                <span class="p2-visual-title">示意：AI 参与购买决策链路</span>
+                <div class="p2-lane p2-lane--four">
+                  <div class="p2-node">需求</div>
+                  <div class="p2-node">候选</div>
+                  <div class="p2-node p2-node--accent">推荐解释</div>
+                  <div class="p2-node">购买/归因</div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="p2-bottom">
+        <div class="p2-controls">
+          <button class="p2-nav-button" type="button" data-p2-prev>上一页</button>
+          <button class="p2-nav-button" type="button" data-p2-next>下一页</button>
+        </div>
+        <div class="p2-dots" data-p2-dots aria-label="页码导航"></div>
+        <div class="p2-hint">键盘 ← / → 翻页</div>
+      </footer>
+
+      <dialog class="p2-modal" data-p2-modal aria-labelledby="p2-modal-title">
+        <div class="p2-modal-header">
+          <div>
+            <h3 id="p2-modal-title" data-p2-modal-title>Reference</h3>
+            <p data-p2-modal-subtitle>来源只保留名称、日期和关键词，避免正文展示长链接。</p>
+          </div>
+          <button class="p2-modal-close" type="button" data-p2-modal-close aria-label="关闭">x</button>
+        </div>
+        <div class="p2-modal-body" data-p2-modal-body></div>
+      </dialog>
+    </section>
+
+    <script>
+      (() => {
+        const root = document.getElementById("part-2-ai-trends");
+        if (!root) return;
+
+        const slides = Array.from(root.querySelectorAll("[data-p2-slide]"));
+        const prevButton = root.querySelector("[data-p2-prev]");
+        const nextButton = root.querySelector("[data-p2-next]");
+        const pageLabel = root.querySelector("[data-p2-page]");
+        const progressBar = root.querySelector("[data-p2-progress]");
+        const dotsWrap = root.querySelector("[data-p2-dots]");
+        let current = 0;
+
+        const references = {
+          "computer-use": {
+            title: "Computer Use references",
+            subtitle: "与“看屏幕、点击、输入、操作无 API 应用”相关的来源。",
+            items: [
+              {
+                name: "OpenAI · Codex for (almost) everything",
+                date: "2026-04-16",
+                keywords: "background computer use, screen content, clicking, typing, apps without API",
+                url: "https://openai.com/index/codex-for-almost-everything/"
+              },
+              {
+                name: "OpenAI Developers · Use your computer with Codex",
+                date: "Developer docs",
+                keywords: "operate normal app UI, GUI tasks, screenshots",
+                url: "https://developers.openai.com/codex/use-cases/use-your-computer-with-codex"
+              }
+            ]
+          },
+          webmcp: {
+            title: "WebMCP / Agentic Web references",
+            subtitle: "与“网站给 Agent 暴露结构化工具”相关的来源。",
+            items: [
+              {
+                name: "Google Developers Blog · Google I/O 2026 Developer keynote",
+                date: "2026-05-19",
+                keywords: "WebMCP, open web standard, structured tools, browser-based agents",
+                url: "https://developers.googleblog.com/all-the-news-from-the-google-io-2026-developer-keynote/"
+              },
+              {
+                name: "Chrome Developers · WebMCP",
+                date: "Origin trial context",
+                keywords: "structured actions, speed, reliability, precision",
+                url: "https://developer.chrome.com/"
+              }
+            ]
+          },
+          effort: {
+            title: "Effort Control references",
+            subtitle: "与“adaptive thinking、effort、fast mode、思考成本”相关的来源。",
+            items: [
+              {
+                name: "Anthropic · Introducing Claude Opus 4.8",
+                date: "2026-05-28",
+                keywords: "effort control, fast mode, dynamic workflows, token efficiency",
+                url: "https://www.anthropic.com/news/claude-opus-4-8"
+              },
+              {
+                name: "Claude API Docs · Extended thinking",
+                date: "Developer docs",
+                keywords: "adaptive thinking, effort parameter, thinking depth",
+                url: "https://platform.claude.com/docs/en/build-with-claude/extended-thinking"
+              }
+            ]
+          },
+          commerce: {
+            title: "Agentic Commerce references",
+            subtitle: "与“Universal Cart、UCP、Google Pay、agentic commerce”相关的来源。",
+            items: [
+              {
+                name: "Google Ads & Commerce · Google Marketing Live 2026",
+                date: "2026-05-20",
+                keywords: "agentic commerce, AP2, UCP, Universal Cart",
+                url: "https://blog.google/products/ads-commerce/google-marketing-live-2026-collection/"
+              },
+              {
+                name: "Google Shopping · Introducing the Universal Cart",
+                date: "2026-05-19",
+                keywords: "Universal Cart, Gemini, Google Pay, cross-merchant checkout",
+                url: "https://blog.google/products-and-platforms/products/shopping/google-shopping-cart/"
+              },
+              {
+                name: "Google for Developers · Universal Commerce Protocol",
+                date: "Last updated 2026-06-10",
+                keywords: "common language, platforms, agents, businesses, discovery to checkout",
+                url: "https://developers.google.com/pay/api/universal-commerce-protocol/overview"
+              }
+            ]
+          }
+        };
+
+        const dots = slides.map((_, index) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "p2-dot";
+          button.setAttribute("aria-label", `跳到第 ${index + 1} 页`);
+          button.addEventListener("click", () => goTo(index));
+          dotsWrap.appendChild(button);
+          return button;
+        });
+
+        const formatPage = (index) => `${String(index + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+
+        const goTo = (index) => {
+          current = Math.min(slides.length - 1, Math.max(0, index));
+          slides.forEach((slide, slideIndex) => {
+            slide.classList.toggle("is-active", slideIndex === current);
+            slide.setAttribute("aria-hidden", String(slideIndex !== current));
+          });
+          dots.forEach((dot, dotIndex) => dot.classList.toggle("is-active", dotIndex === current));
+          pageLabel.textContent = formatPage(current);
+          progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+          prevButton.disabled = current === 0;
+          nextButton.disabled = current === slides.length - 1;
+        };
+
+        prevButton.addEventListener("click", () => goTo(current - 1));
+        nextButton.addEventListener("click", () => goTo(current + 1));
+        root.querySelectorAll("[data-p2-jump]").forEach((button) => {
+          button.addEventListener("click", () => goTo(Number(button.dataset.p2Jump)));
+        });
+
+        window.addEventListener("keydown", (event) => {
+          const modal = root.querySelector("[data-p2-modal]");
+          if (modal?.open) {
+            return;
+          }
+          if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+            event.preventDefault();
+            goTo(current + 1);
+          }
+          if (event.key === "ArrowLeft" || event.key === "PageUp") {
+            event.preventDefault();
+            goTo(current - 1);
+          }
+        });
+
+        const modal = root.querySelector("[data-p2-modal]");
+        const modalTitle = root.querySelector("[data-p2-modal-title]");
+        const modalSubtitle = root.querySelector("[data-p2-modal-subtitle]");
+        const modalBody = root.querySelector("[data-p2-modal-body]");
+        const modalClose = root.querySelector("[data-p2-modal-close]");
+
+        const openModal = (id) => {
+          const ref = references[id];
+          if (!ref) return;
+          modalTitle.textContent = ref.title;
+          modalSubtitle.textContent = ref.subtitle;
+          modalBody.innerHTML = ref.items
+            .map(
+              (item) => `
+                <article class="p2-ref-item">
+                  <div>
+                    <h4>${item.name}</h4>
+                    <p>${item.date} · ${item.keywords}</p>
+                  </div>
+                  <button class="p2-source-button" type="button" data-p2-source="${item.url}">打开来源</button>
+                </article>
+              `
+            )
+            .join("");
+          modalBody.querySelectorAll("[data-p2-source]").forEach((button) => {
+            button.addEventListener("click", () => window.open(button.dataset.p2Source, "_blank", "noopener"));
+          });
+          modal.showModal();
+        };
+
+        root.querySelectorAll("[data-p2-ref]").forEach((button) => {
+          button.addEventListener("click", () => openModal(button.dataset.p2Ref));
+        });
+
+        modalClose.addEventListener("click", () => modal.close());
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) modal.close();
+        });
+
+        goTo(0);
+      })();
+    </script>
+  </body>
+</html>
