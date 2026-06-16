@@ -20,6 +20,8 @@ npm run preview
 
 Static assets live in `public/`, React code in `src/`. The published site keeps the existing `CNAME` for the custom domain.
 
+The AI sharing page is a standalone static route at `/aisharing/`, sourced from `public/aisharing/index.html`.
+
 ## Deploy to GitHub Pages (`gh-pages` branch)
 
 This workflow keeps build artifacts out of `master` while serving from `gh-pages`:
