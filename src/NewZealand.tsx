@@ -265,12 +265,37 @@ const MapFocus = ({ coordinate }: { coordinate: LatLngExpression }) => {
   return null;
 };
 
+const MapVisibility = ({ visible }: { visible: boolean }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const timer = window.setTimeout(() => {
+      map.invalidateSize();
+      map.fitBounds(
+        [
+          [-46.1, 168],
+          [-35.8, 175.9],
+        ],
+        { animate: false, padding: [22, 22] },
+      );
+    }, 120);
+
+    return () => window.clearTimeout(timer);
+  }, [map, visible]);
+
+  return null;
+};
+
 const RouteMap = ({
   selectedDay,
   onSelectDay,
+  mobileVisible,
 }: {
   selectedDay: number;
   onSelectDay: (index: number) => void;
+  mobileVisible: boolean;
 }) => (
   <MapContainer
     className="route-map"
@@ -316,6 +341,7 @@ const RouteMap = ({
       </Marker>
     ))}
     <MapFocus coordinate={itinerary[selectedDay].coordinate} />
+    <MapVisibility visible={mobileVisible} />
   </MapContainer>
 );
 
@@ -411,7 +437,11 @@ const NewZealand = () => {
           </div>
 
           <div className={`nz-map-shell ${mobileView === 'map' ? 'is-mobile-visible' : ''}`}>
-            <RouteMap selectedDay={selectedDay} onSelectDay={(index) => selectDay(index, true)} />
+            <RouteMap
+              selectedDay={selectedDay}
+              onSelectDay={(index) => selectDay(index, true)}
+              mobileVisible={mobileView === 'map'}
+            />
             <div className="nz-map-card" aria-live="polite">
               <span>DAY {String(selectedDay + 1).padStart(2, '0')}</span>
               <strong>{itinerary[selectedDay].place}</strong>
