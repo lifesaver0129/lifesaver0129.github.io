@@ -436,7 +436,11 @@ const NewZealand = () => {
             </p>
           </div>
 
-          <div className={`nz-map-shell ${mobileView === 'map' ? 'is-mobile-visible' : ''}`}>
+          <div
+            className={`nz-map-shell ${mobileView === 'map' ? 'is-mobile-visible' : ''}`}
+            role="region"
+            aria-label="Interactive map of the New Zealand itinerary"
+          >
             <RouteMap
               selectedDay={selectedDay}
               onSelectDay={(index) => selectDay(index, true)}
@@ -535,6 +539,7 @@ const NewZealand = () => {
         <button
           type="button"
           className={mobileView === 'itinerary' ? 'is-active' : ''}
+          aria-pressed={mobileView === 'itinerary'}
           onClick={() => setMobileView('itinerary')}
         >
           Itinerary
@@ -542,6 +547,7 @@ const NewZealand = () => {
         <button
           type="button"
           className={mobileView === 'map' ? 'is-active' : ''}
+          aria-pressed={mobileView === 'map'}
           onClick={() => {
             setMobileView('map');
             document.querySelector('#route')?.scrollIntoView({ behavior: 'smooth' });
