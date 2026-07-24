@@ -648,8 +648,9 @@ a {
 }
 
 .nz-entry {
+  --entry-color: var(--nz-ink);
   display: grid;
-  grid-template-columns: 32px 1fr;
+  grid-template-columns: 38px 1fr;
   gap: 13px;
   min-height: 94px;
   padding: 16px;
@@ -661,23 +662,38 @@ a {
   display: grid;
   place-items: center;
   align-self: start;
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   color: var(--nz-paper);
-  background: var(--nz-ink);
-  font: 500 0.83rem/1 var(--nz-mono);
+  background: var(--entry-color);
+  font: 500 1rem/1 var(--nz-mono);
 }
 
-.nz-entry--flight .nz-entry__icon,
-.nz-entry--drive .nz-entry__icon {
-  background: var(--nz-orange);
+.nz-entry--flight {
+  --entry-color: #e65b37;
+}
+
+.nz-entry--drive {
+  --entry-color: #c28432;
+}
+
+.nz-entry--food {
+  --entry-color: #708044;
+}
+
+.nz-entry--stay {
+  --entry-color: #277069;
+}
+
+.nz-entry--visit {
+  --entry-color: #765c7c;
 }
 
 .nz-entry__type {
   display: block;
   margin: 0 0 7px;
-  color: rgba(18, 43, 37, 0.5);
+  color: var(--entry-color);
   font: 500 0.53rem/1 var(--nz-mono);
   letter-spacing: 0.11em;
   text-transform: uppercase;

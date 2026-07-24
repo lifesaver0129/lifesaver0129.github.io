@@ -259,7 +259,17 @@ const MapFocus = ({ coordinate }: { coordinate: LatLngExpression }) => {
       isFirstRender.current = false;
       return;
     }
-    map.flyTo(coordinate, Math.max(map.getZoom(), 6), { duration: 0.8 });
+
+    const frame = window.requestAnimationFrame(() => {
+      const size = map.getSize();
+      if (!Number.isFinite(size.x) || !Number.isFinite(size.y) || size.x <= 0 || size.y <= 0) return;
+
+      map.stop();
+      map.invalidateSize();
+      map.flyTo(coordinate, Math.max(map.getZoom(), 6), { duration: 0.8 });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [coordinate, map]);
 
   return null;
