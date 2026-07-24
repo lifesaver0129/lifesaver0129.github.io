@@ -380,6 +380,11 @@ const NewZealand = () => {
     }
   };
 
+  const selectMapDay = (index: number) => {
+    const isCompactLayout = window.matchMedia('(max-width: 700px)').matches;
+    selectDay(index, !isCompactLayout);
+  };
+
   return (
     <div className="nz-site">
       <header className="nz-header">
@@ -453,13 +458,30 @@ const NewZealand = () => {
           >
             <RouteMap
               selectedDay={selectedDay}
-              onSelectDay={(index) => selectDay(index, true)}
+              onSelectDay={selectMapDay}
               mobileVisible={mobileView === 'map'}
             />
             <div className="nz-map-card" aria-live="polite">
               <span>DAY {String(selectedDay + 1).padStart(2, '0')}</span>
               <strong>{itinerary[selectedDay].place}</strong>
               <small>{itinerary[selectedDay].date.replace(' ', ' · ')}</small>
+              <div className="nz-map-card__entries">
+                {itinerary[selectedDay].entries.map((entry, index) => (
+                  <div
+                    className={`nz-map-mini-entry nz-map-mini-entry--${entry.type}`}
+                    key={`${entry.title}-${index}`}
+                  >
+                    <span className="nz-map-mini-entry__icon" aria-hidden="true">
+                      {entryMeta[entry.type].icon}
+                    </span>
+                    <div>
+                      <span className="nz-map-mini-entry__type">{entryMeta[entry.type].label}</span>
+                      <strong>{entry.title}</strong>
+                      {entry.detail && <small>{entry.detail}</small>}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="nz-map-key" aria-label="Map legend">
               <span><i className="is-road" /> Road</span>

@@ -421,24 +421,57 @@ a {
   padding: 22px;
 }
 
-.nz-map-card span,
-.nz-map-card small {
+.nz-map-card > span,
+.nz-map-card > small {
   font: 500 0.62rem/1.4 var(--nz-mono);
   letter-spacing: 0.09em;
 }
 
-.nz-map-card span {
+.nz-map-card > span {
   color: var(--nz-orange);
 }
 
-.nz-map-card strong {
+.nz-map-card > strong {
   margin: 10px 0 18px;
   font: 500 1.45rem/1.1 var(--nz-serif);
 }
 
-.nz-map-card small {
+.nz-map-card > small {
   padding-top: 12px;
   border-top: 1px solid var(--nz-line);
+}
+
+.nz-map-card__entries {
+  display: none;
+}
+
+.nz-map-mini-entry {
+  --entry-color: var(--nz-ink);
+}
+
+.nz-map-mini-entry--flight,
+.nz-entry--flight {
+  --entry-color: #416aa3;
+}
+
+.nz-map-mini-entry--drive,
+.nz-entry--drive {
+  --entry-color: #c28432;
+}
+
+.nz-map-mini-entry--food,
+.nz-entry--food {
+  --entry-color: #708044;
+}
+
+.nz-map-mini-entry--stay,
+.nz-entry--stay {
+  --entry-color: #277069;
+}
+
+.nz-map-mini-entry--visit,
+.nz-entry--visit {
+  --entry-color: #765c7c;
 }
 
 .nz-map-key {
@@ -670,26 +703,6 @@ a {
   font: 500 1rem/1 var(--nz-mono);
 }
 
-.nz-entry--flight {
-  --entry-color: #416aa3;
-}
-
-.nz-entry--drive {
-  --entry-color: #c28432;
-}
-
-.nz-entry--food {
-  --entry-color: #708044;
-}
-
-.nz-entry--stay {
-  --entry-color: #277069;
-}
-
-.nz-entry--visit {
-  --entry-color: #765c7c;
-}
-
 .nz-entry__type {
   display: block;
   margin: 0 0 7px;
@@ -880,13 +893,72 @@ a {
   .nz-map-card {
     right: 14px;
     bottom: 76px;
-    width: min(250px, calc(100% - 28px));
+    width: min(360px, calc(100% - 28px));
+    max-height: calc(100% - 190px);
     padding: 16px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
   }
 
-  .nz-map-card strong {
+  .nz-map-card > strong {
     margin: 7px 0 12px;
     font-size: 1.15rem;
+  }
+
+  .nz-map-card__entries {
+    display: grid;
+    gap: 0;
+    margin-top: 13px;
+    padding-top: 3px;
+    border-top: 1px solid var(--nz-line);
+  }
+
+  .nz-map-mini-entry {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+    padding: 10px 0;
+  }
+
+  .nz-map-mini-entry + .nz-map-mini-entry {
+    border-top: 1px solid rgba(18, 43, 37, 0.1);
+  }
+
+  .nz-map-mini-entry__icon {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    color: var(--nz-paper);
+    background: var(--entry-color);
+    font: 500 0.74rem/1 var(--nz-mono);
+  }
+
+  .nz-map-mini-entry__type {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--entry-color);
+    font: 500 0.47rem/1 var(--nz-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .nz-map-mini-entry strong {
+    display: block;
+    margin: 0;
+    font: 700 0.71rem/1.35 var(--nz-sans);
+  }
+
+  .nz-map-mini-entry small {
+    display: block;
+    margin-top: 3px;
+    padding: 0;
+    border: 0;
+    color: rgba(18, 43, 37, 0.58);
+    font: 500 0.59rem/1.4 var(--nz-sans);
+    letter-spacing: 0;
   }
 
   .nz-map-key {
