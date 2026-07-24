@@ -208,7 +208,7 @@ const itinerary: Day[] = [
 const entryMeta: Record<EntryType, { icon: string; label: string }> = {
   flight: { icon: '✈', label: 'Flight' },
   drive: { icon: '↗', label: 'Drive' },
-  food: { icon: '●', label: 'Food' },
+  food: { icon: '🍴', label: 'Food' },
   stay: { icon: '⌂', label: 'Stay' },
   visit: { icon: '✦', label: 'Experience' },
 };
@@ -275,37 +275,12 @@ const MapFocus = ({ coordinate }: { coordinate: LatLngExpression }) => {
   return null;
 };
 
-const MapVisibility = ({ visible }: { visible: boolean }) => {
-  const map = useMap();
-
-  useEffect(() => {
-    if (!visible) return;
-
-    const timer = window.setTimeout(() => {
-      map.invalidateSize();
-      map.fitBounds(
-        [
-          [-46.1, 168],
-          [-35.8, 175.9],
-        ],
-        { animate: false, padding: [22, 22] },
-      );
-    }, 120);
-
-    return () => window.clearTimeout(timer);
-  }, [map, visible]);
-
-  return null;
-};
-
 const RouteMap = ({
   selectedDay,
   onSelectDay,
-  mobileVisible,
 }: {
   selectedDay: number;
   onSelectDay: (index: number) => void;
-  mobileVisible: boolean;
 }) => (
   <MapContainer
     className="route-map"
@@ -351,14 +326,13 @@ const RouteMap = ({
       </Marker>
     ))}
     <MapFocus coordinate={itinerary[selectedDay].coordinate} />
-    <MapVisibility visible={mobileVisible} />
   </MapContainer>
 );
 
 const NewZealand = () => {
   const [filter, setFilter] = useState<Filter>('all');
   const [selectedDay, setSelectedDay] = useState(0);
-  const [mobileView, setMobileView] = useState<'itinerary' | 'map'>('itinerary');
+  const [mapCardExpanded, setMapCardExpanded] = useState(false);
   const cardRefs = useRef<Array<HTMLElement | null>>([]);
 
   const visibleDays = useMemo(
@@ -381,8 +355,20 @@ const NewZealand = () => {
   };
 
   const selectMapDay = (index: number) => {
-    const isCompactLayout = window.matchMedia('(max-width: 700px)').matches;
-    selectDay(index, !isCompactLayout);
+    selectDay(index);
+    setMapCardExpanded(false);
+  };
+
+  const showMap = (centerMap = false) => {
+    setMapCardExpanded(false);
+
+    if (centerMap) {
+      window.requestAnimationFrame(() => {
+        document
+          .querySelector('.nz-map-shell')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    }
   };
 
   return (
@@ -402,21 +388,38 @@ const NewZealand = () => {
       </header>
 
       <main>
-        <section className="nz-hero">
+        <section className="nz-hero" id="top">
           <div className="nz-hero__copy">
             <p className="nz-kicker">AOTEAROA · AUTUMN 2023</p>
             <h1>
-              Nine days,
+              Southbound,
               <br />
-              two islands.
+              under open skies.
             </h1>
             <p className="nz-intro">
-              From Auckland’s harbour to the alpine roads of the South Island — a compact field guide to
-              every flight, stop, meal, and stay.
+              Auckland’s harbour opened the journey, but the South Island stole the show — Lake Tekapo’s
+              dark skies, the road beneath Aoraki / Mount Cook, and rain-softened Queenstown.
             </p>
-            <a className="nz-cta" href="#itinerary">
-              Explore the journey <span aria-hidden="true">↓</span>
-            </a>
+            <div className="nz-hero__actions">
+              <a
+                className="nz-cta"
+                href="#route"
+                onClick={(event) => {
+                  const isNarrowLayout = window.matchMedia('(max-width: 700px)').matches;
+                  if (isNarrowLayout) event.preventDefault();
+                  showMap(isNarrowLayout);
+                }}
+              >
+                Explore by map <span aria-hidden="true">↘</span>
+              </a>
+              <a
+                className="nz-cta nz-cta--secondary"
+                href="#itinerary"
+                onClick={() => setMapCardExpanded(false)}
+              >
+                Explore by day <span aria-hidden="true">↓</span>
+              </a>
+            </div>
           </div>
           <div className="nz-hero__stamp" aria-label="Trip dates April 28 to May 6, 2023">
             <span className="nz-hero__number">09</span>
@@ -437,6 +440,13 @@ const NewZealand = () => {
               <span>nights away</span>
             </div>
           </div>
+          <a className="nz-chapter-next nz-chapter-next--hero" href="#route">
+            <span>
+              <small>Next chapter</small>
+              <strong>Route map</strong>
+            </span>
+            <i aria-hidden="true">↓</i>
+          </a>
         </section>
 
         <section className="nz-route" id="route" aria-labelledby="route-title">
@@ -445,27 +455,114 @@ const NewZealand = () => {
               <p className="nz-kicker">THE ROUTE</p>
               <h2 id="route-title">North to south, then home.</h2>
             </div>
-            <p>
-              Select a numbered stop to match the map with its day in the itinerary. Solid orange is the
-              road trip; the dashed line is in the air.
-            </p>
           </div>
 
-          <div
-            className={`nz-map-shell ${mobileView === 'map' ? 'is-mobile-visible' : ''}`}
-            role="region"
-            aria-label="Interactive map of the New Zealand itinerary"
-          >
-            <RouteMap
-              selectedDay={selectedDay}
-              onSelectDay={selectMapDay}
-              mobileVisible={mobileView === 'map'}
-            />
-            <div className="nz-map-card" aria-live="polite">
-              <span>DAY {String(selectedDay + 1).padStart(2, '0')}</span>
-              <strong>{itinerary[selectedDay].place}</strong>
-              <small>{itinerary[selectedDay].date.replace(' ', ' · ')}</small>
-              <div className="nz-map-card__entries">
+          <div className="nz-route-layout">
+            <div
+              className="nz-map-shell"
+              role="region"
+              aria-label="Interactive map of the New Zealand itinerary"
+            >
+              <RouteMap
+                selectedDay={selectedDay}
+                onSelectDay={selectMapDay}
+              />
+              <div
+                className={`nz-map-card ${mapCardExpanded ? 'is-expanded' : ''}`}
+                aria-live="polite"
+              >
+                <button
+                  className="nz-map-card__toggle"
+                  type="button"
+                  aria-expanded={mapCardExpanded}
+                  aria-controls="map-itinerary-panel"
+                  onClick={() => setMapCardExpanded((expanded) => !expanded)}
+                >
+                  <span className="nz-map-card__meta">
+                    <span>DAY {String(selectedDay + 1).padStart(2, '0')}</span>
+                    <small>{itinerary[selectedDay].date.replace(' ', ' · ')}</small>
+                    <i aria-hidden="true">{mapCardExpanded ? '−' : '+'}</i>
+                  </span>
+                  <strong>{itinerary[selectedDay].place}</strong>
+                </button>
+                <nav className="nz-map-card__nav" aria-label="Navigate map itinerary days">
+                  <button
+                    type="button"
+                    disabled={selectedDay === 0}
+                    onClick={() => selectDay(selectedDay - 1)}
+                    aria-label={
+                      selectedDay === 0
+                        ? 'No previous day'
+                        : `Previous day: ${itinerary[selectedDay - 1].date}, ${itinerary[selectedDay - 1].place}`
+                    }
+                  >
+                    <span aria-hidden="true">←</span>
+                    <small>Previous</small>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={selectedDay === itinerary.length - 1}
+                    onClick={() => selectDay(selectedDay + 1)}
+                    aria-label={
+                      selectedDay === itinerary.length - 1
+                        ? 'No next day'
+                        : `Next day: ${itinerary[selectedDay + 1].date}, ${itinerary[selectedDay + 1].place}`
+                    }
+                  >
+                    <small>Next</small>
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </nav>
+                <div
+                  className="nz-map-card__entries"
+                  id="map-itinerary-panel"
+                  aria-hidden={!mapCardExpanded}
+                >
+                  <div>
+                    {itinerary[selectedDay].entries.map((entry, index) => (
+                      <div
+                        className={`nz-map-mini-entry nz-map-mini-entry--${entry.type}`}
+                        key={`${entry.title}-${index}`}
+                      >
+                        <span className="nz-map-mini-entry__icon" aria-hidden="true">
+                          {entryMeta[entry.type].icon}
+                        </span>
+                        <div>
+                          <span className="nz-map-mini-entry__type">{entryMeta[entry.type].label}</span>
+                          <strong>{entry.title}</strong>
+                          {entry.detail && <small>{entry.detail}</small>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="nz-map-key" aria-label="Map legend">
+                <span><i className="is-road" /> Road</span>
+                <span><i className="is-flight" /> Flight</span>
+              </div>
+            </div>
+
+            <aside className="nz-route-panel" aria-live="polite" aria-label="Selected day itinerary">
+              <div className="nz-route-panel__meta">
+                <span>DAY {String(selectedDay + 1).padStart(2, '0')}</span>
+                <small>{itinerary[selectedDay].date.replace(' ', ' · ')}</small>
+              </div>
+              <h3>{itinerary[selectedDay].place}</h3>
+              {(itinerary[selectedDay].weather || itinerary[selectedDay].temperature) && (
+                <div className="nz-route-panel__weather">
+                  <span aria-hidden="true">
+                    {itinerary[selectedDay].weather === 'Sunny'
+                      ? '☀'
+                      : itinerary[selectedDay].weather === 'Rainy'
+                        ? '☂'
+                        : '◒'}
+                  </span>
+                  <span>{itinerary[selectedDay].weather}</span>
+                  <strong>{itinerary[selectedDay].temperature}</strong>
+                </div>
+              )}
+              <div className="nz-route-panel__entries">
                 {itinerary[selectedDay].entries.map((entry, index) => (
                   <div
                     className={`nz-map-mini-entry nz-map-mini-entry--${entry.type}`}
@@ -482,12 +579,43 @@ const NewZealand = () => {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="nz-map-key" aria-label="Map legend">
-              <span><i className="is-road" /> Road</span>
-              <span><i className="is-flight" /> Flight</span>
-            </div>
+              <nav className="nz-route-panel__nav" aria-label="Navigate itinerary days">
+                <button
+                  type="button"
+                  disabled={selectedDay === 0}
+                  onClick={() => selectMapDay(selectedDay - 1)}
+                  aria-label={
+                    selectedDay === 0
+                      ? 'No previous day'
+                      : `Previous day: ${itinerary[selectedDay - 1].date}, ${itinerary[selectedDay - 1].place}`
+                  }
+                >
+                  <span aria-hidden="true">←</span>
+                  <small>Previous</small>
+                </button>
+                <button
+                  type="button"
+                  disabled={selectedDay === itinerary.length - 1}
+                  onClick={() => selectMapDay(selectedDay + 1)}
+                  aria-label={
+                    selectedDay === itinerary.length - 1
+                      ? 'No next day'
+                      : `Next day: ${itinerary[selectedDay + 1].date}, ${itinerary[selectedDay + 1].place}`
+                  }
+                >
+                  <small>Next</small>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </nav>
+            </aside>
           </div>
+          <a className="nz-chapter-next nz-chapter-next--route" href="#itinerary">
+            <span>
+              <small>Next chapter</small>
+              <strong>Day by day</strong>
+            </span>
+            <i aria-hidden="true">↓</i>
+          </a>
         </section>
 
         <section className="nz-itinerary" id="itinerary" aria-labelledby="itinerary-title">
@@ -513,7 +641,7 @@ const NewZealand = () => {
             ))}
           </div>
 
-          <div className={`nz-timeline ${mobileView === 'map' ? 'is-mobile-hidden' : ''}`}>
+          <div className="nz-timeline">
             {visibleDays.map((item) => (
               <article
                 key={item.id}
@@ -566,28 +694,6 @@ const NewZealand = () => {
           </div>
         </section>
       </main>
-
-      <div className="nz-mobile-switch" aria-label="Choose mobile view">
-        <button
-          type="button"
-          className={mobileView === 'itinerary' ? 'is-active' : ''}
-          aria-pressed={mobileView === 'itinerary'}
-          onClick={() => setMobileView('itinerary')}
-        >
-          Itinerary
-        </button>
-        <button
-          type="button"
-          className={mobileView === 'map' ? 'is-active' : ''}
-          aria-pressed={mobileView === 'map'}
-          onClick={() => {
-            setMobileView('map');
-            document.querySelector('#route')?.scrollIntoView({ behavior: 'smooth' });
-          }}
-        >
-          Map
-        </button>
-      </div>
 
       <footer className="nz-footer">
         <div>
