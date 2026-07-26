@@ -567,14 +567,7 @@ const TravelPage = ({ trip }: { trip: TravelConfig }) => {
                   aria-controls="other-costs-list"
                   onClick={() => setOtherCostsExpanded((expanded) => !expanded)}
                 >
-                  <span>
-                    <small className="travel-kicker">OTHER TRIP COSTS</small>
-                    <strong id="other-costs-title">Not tied to a specific day.</strong>
-                  </span>
-                  <span className="travel-other-costs__summary">
-                    Included in the {currency} {costFormatter.format(visibleCostSummary.total)}{' '}
-                    {filter === 'all' ? 'trip' : filters.find((item) => item.value === filter)?.label.toLowerCase()} total for 2 people.
-                  </span>
+                  <strong id="other-costs-title">Other trip costs</strong>
                   <i aria-hidden="true">+</i>
                 </button>
               </header>
@@ -608,9 +601,14 @@ const TravelPage = ({ trip }: { trip: TravelConfig }) => {
           <span className="travel-footer__mark">{trip.footer.mark}</span>
           <p>{trip.footer.note}</p>
         </div>
-        <a href="#top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          Back to top ↑
-        </a>
+        <nav className="travel-footer__nav" aria-label="Travel page navigation">
+          <a href="/">
+            ← Return home
+          </a>
+          <a href="#top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            Back to top ↑
+          </a>
+        </nav>
       </footer>
     </div>
   );

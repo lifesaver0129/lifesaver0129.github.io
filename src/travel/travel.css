@@ -1209,9 +1209,9 @@ a {
 .travel-other-costs > header button {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr) 36px;
+  grid-template-columns: minmax(0, 1fr) 36px;
   align-items: center;
-  gap: 30px;
+  gap: 24px;
   width: 100%;
   padding: 26px 30px;
   border: 0;
@@ -1226,21 +1226,9 @@ a {
   background: rgba(var(--travel-ink-rgb), 0.035);
 }
 
-.travel-other-costs > header button > span:first-child {
-  display: grid;
-}
-
 .travel-other-costs > header strong {
-  margin-top: 8px;
   font: 400 clamp(1.75rem, 3vw, 2.5rem)/0.98 var(--travel-serif);
   letter-spacing: -0.035em;
-}
-
-.travel-other-costs__summary {
-  max-width: 420px;
-  color: rgba(var(--travel-ink-rgb), 0.58);
-  font-size: 0.72rem;
-  line-height: 1.5;
 }
 
 .travel-other-costs > header i {
@@ -1355,7 +1343,13 @@ a {
   font: 500 1.5rem/1.3 var(--travel-serif);
 }
 
-.travel-footer a {
+.travel-footer__nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 58px);
+}
+
+.travel-footer__nav a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -1533,7 +1527,7 @@ a {
 
   .travel-map-key {
     top: 12px;
-    left: 48px;
+    left: 66px;
   }
 
   .travel-itinerary {
@@ -1565,10 +1559,6 @@ a {
   .travel-other-costs > header i {
     position: absolute;
     right: 34px;
-  }
-
-  .travel-other-costs__summary {
-    max-width: calc(100% - 48px);
   }
 
   .travel-other-costs__list {
@@ -1642,8 +1632,25 @@ a {
     gap: 40px;
   }
 
-  .travel-footer a {
+  .travel-footer__nav {
     justify-self: start;
+  }
+
+  .travel-footer__nav a {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 460px) {
+  .travel-footer__nav {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .travel-footer__nav a {
+    width: 100%;
   }
 }
 
