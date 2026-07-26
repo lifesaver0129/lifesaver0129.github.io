@@ -1,4 +1,5 @@
 import React from 'react';
+import { travelTrips } from './travel/trips';
 
 type Experience = {
   title: string;
@@ -9,25 +10,11 @@ type Experience = {
 
 const experiences: Experience[] = [
   {
-    title: 'Senior Software Engineer',
-    place: 'Microsoft · Link to Windows',
-    period: 'SEP 2025 — NOW',
-    focus:
-      'Owning Windows-to-phone continuity experiences with an emphasis on reliability, instrumentation, and calm user experience.',
-  },
-  {
-    title: 'Software Engineer 2',
-    place: 'Microsoft · Link to Windows',
-    period: 'DEC 2021 — AUG 2025',
-    focus:
-      'Shipped core cross-device capabilities and improved stability, onboarding, experimentation, and retention across Windows and Android.',
-  },
-  {
     title: 'Software Engineer',
-    place: 'Microsoft · Microsoft Launcher',
-    period: 'JUL 2019 — NOV 2021',
+    place: 'Microsoft',
+    period: 'JUL 2019 — NOW',
     focus:
-      'Owned client features from design through rollout, using production telemetry to keep daily experiences fast and dependable.',
+      'Building dependable cross-device experiences across Windows and Android—from client features and onboarding through reliability, experimentation, telemetry, retention, and calm daily use.',
   },
   {
     title: 'M.S. Computer Science',
@@ -47,29 +34,20 @@ const experiences: Experience[] = [
 const App: React.FC = () => (
   <div className="hub-site">
     <header className="hub-header">
-      <a className="hub-brand" href="#top" aria-label="lifesaverHUB home">
-        <span>YH</span>
-        <span>HUB</span>
+      <a className="hub-brand" href="#top" aria-label="lifesaverHub home">
+        lifesaver<span>Hub</span>
       </a>
       <nav aria-label="Main navigation">
         <a href="#about">Profile</a>
         <a href="#journey">Journey</a>
         <a href="#experience">Experience</a>
       </nav>
-      <a
-        className="hub-header__contact"
-        href="https://www.linkedin.com/in/yuxinghu/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Connect <span aria-hidden="true">↗</span>
-      </a>
     </header>
 
     <main>
       <section className="hub-hero" id="top">
         <div className="hub-hero__copy">
-          <p className="hub-kicker">YUXING HU · SENIOR SOFTWARE ENGINEER</p>
+          <p className="hub-kicker">YUXING HU</p>
           <h1>
             Building the
             <br />
@@ -85,8 +63,8 @@ const App: React.FC = () => (
             <a href="#experience">
               View experience <span aria-hidden="true">↓</span>
             </a>
-            <a href="/newzealand/">
-              Explore New Zealand ’23 <span aria-hidden="true">↗</span>
+            <a href={`/${travelTrips[0].slug}/`}>
+              Explore latest journey <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
@@ -96,13 +74,10 @@ const App: React.FC = () => (
           <span className="hub-orbit hub-orbit--inner" />
           <span className="hub-orbit__dot hub-orbit__dot--one" />
           <span className="hub-orbit__dot hub-orbit__dot--two" />
-          <strong>01</strong>
           <p>
-            PRODUCT
-            <br />
-            SYSTEMS
-            <br />
-            RELIABILITY
+            <span>PRODUCT</span>
+            <span>SYSTEMS</span>
+            <span>RELIABILITY</span>
           </p>
         </div>
       </section>
@@ -136,36 +111,36 @@ const App: React.FC = () => (
         </div>
       </section>
 
-      <section className="hub-journey" id="journey" aria-labelledby="journey-title">
-        <div className="hub-journey__index" aria-hidden="true">
-          <span>02</span>
-          <small>PERSONAL PROJECT</small>
-        </div>
-        <div className="hub-journey__copy">
-          <p className="hub-kicker">FIELD NOTE · MAY 2023</p>
-          <h2 id="journey-title">A road trip, reconstructed day by day.</h2>
-          <p>
-            An interactive record of nine days across Aotearoa—from Auckland’s harbour to Tekapo’s dark
-            skies, Aoraki / Mount Cook, and rain-softened Queenstown.
-          </p>
-          <a href="/newzealand/">
-            Open the interactive itinerary <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-        <div className="hub-journey__route" aria-hidden="true">
-          <div className="hub-route-line" />
-          <span className="hub-route-stop hub-route-stop--one">AKL</span>
-          <span className="hub-route-stop hub-route-stop--two">CHC</span>
-          <span className="hub-route-stop hub-route-stop--three">TEKAPO</span>
-          <span className="hub-route-stop hub-route-stop--four">ZQN</span>
-          <strong>09</strong>
-          <small>DAYS · TWO ISLANDS</small>
+      <section className="hub-travels" id="journey" aria-labelledby="travels-title">
+        <header>
+          <p className="hub-kicker">TRAVEL JOURNALS</p>
+          <h2 id="travels-title">Journeys, mapped.</h2>
+        </header>
+        <div className="hub-journey-list">
+          {travelTrips.map((trip) => {
+            const titleId = `journey-${trip.slug}-title`;
+
+            return (
+              <article className="hub-journey" aria-labelledby={titleId} key={trip.slug}>
+                <div className="hub-journey__heading">
+                  <p className="hub-kicker">{trip.home.kicker}</p>
+                  <h3 id={titleId}>{trip.home.title}</h3>
+                </div>
+                <div className="hub-journey__details">
+                  <p>{trip.home.description}</p>
+                  <a href={`/${trip.slug}/`}>
+                    {trip.home.actionLabel} <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
       <section className="hub-experience" id="experience" aria-labelledby="experience-title">
         <header>
-          <p className="hub-kicker">EXPERIENCE · 03</p>
+          <p className="hub-kicker">EXPERIENCE</p>
           <h2 id="experience-title">
             Products, platforms,
             <br />
@@ -178,9 +153,8 @@ const App: React.FC = () => (
         </header>
 
         <div className="hub-timeline">
-          {experiences.map((item, index) => (
+          {experiences.map((item) => (
             <article key={`${item.title}-${item.period}`}>
-              <span className="hub-timeline__number">{String(index + 1).padStart(2, '0')}</span>
               <div className="hub-timeline__date">{item.period}</div>
               <div className="hub-timeline__body">
                 <p>{item.place}</p>
@@ -193,33 +167,30 @@ const App: React.FC = () => (
       </section>
 
       <section className="hub-contact" id="contact">
-        <p className="hub-kicker">OPEN CHANNEL · 04</p>
+        <p className="hub-kicker">OPEN CHANNEL</p>
         <h2>Let’s make the complicated feel obvious.</h2>
         <div>
           <p>
             I’m always interested in thoughtful systems, useful products, and the teams bringing them
             together.
           </p>
-          <a href="https://www.linkedin.com/in/yuxinghu/" target="_blank" rel="noreferrer">
-            Start a conversation <span aria-hidden="true">↗</span>
-          </a>
+          <div className="hub-contact__links" aria-label="External profiles">
+            <a href="https://github.com/lifesaver0129" target="_blank" rel="noreferrer">
+              GitHub <span aria-hidden="true">↗</span>
+            </a>
+            <a href="https://www.linkedin.com/in/yuxinghu/" target="_blank" rel="noreferrer">
+              LinkedIn <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
       </section>
     </main>
 
     <footer className="hub-footer">
       <div>
-        <span>lifesaverHUB</span>
-        <p>Yuxing Hu · Beijing</p>
+        <span>lifesaverHub</span>
+        <p>Yuxing Hu</p>
       </div>
-      <nav aria-label="Social links">
-        <a href="https://github.com/lifesaver0129" target="_blank" rel="noreferrer">
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/yuxinghu/" target="_blank" rel="noreferrer">
-          LinkedIn
-        </a>
-      </nav>
       <a href="#top">Back to top ↑</a>
     </footer>
   </div>
