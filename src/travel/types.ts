@@ -83,7 +83,7 @@ export type TravelConfig = {
     center: Coordinate;
     zoom: number;
     minZoom: number;
-    road: Coordinate[];
+    roads: Coordinate[][];
     flights: Coordinate[][];
   };
   itinerary: {

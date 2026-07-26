@@ -98,7 +98,13 @@ const RouteMap = ({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Polyline positions={route.road} pathOptions={{ color: theme.accent, weight: 4, opacity: 0.9 }} />
+      {route.roads.map((roadRoute, index) => (
+        <Polyline
+          key={`road-line-${index}`}
+          positions={roadRoute}
+          pathOptions={{ color: theme.accent, weight: 4, opacity: 0.9 }}
+        />
+      ))}
       {route.flights.map((flightRoute, index) => (
         <Polyline
           key={index}
@@ -106,7 +112,7 @@ const RouteMap = ({
           pathOptions={{ color: theme.ink, weight: 2, opacity: 0.65, dashArray: '8 10' }}
         />
       ))}
-      {route.road.map((coordinate, index) => (
+      {route.roads.flat().map((coordinate, index) => (
         <CircleMarker
           key={`road-${index}`}
           center={coordinate}
