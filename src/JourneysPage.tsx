@@ -5,6 +5,8 @@ type JourneyCardStyle = CSSProperties & {
   '--journey-accent': string;
 };
 
+const archiveDateLabel = (kicker: string) => kicker.replace(/^FIELD NOTE\s*·\s*/i, '');
+
 const JourneysPage = () => (
   <div className="hub-site journeys-site">
     <header className="hub-header">
@@ -56,7 +58,7 @@ const JourneysPage = () => (
               <article className="journeys-card" style={style} aria-labelledby={titleId} key={trip.slug}>
                 <a className="journeys-card__link" href={`/${trip.slug}/`}>
                   <div className="journeys-card__heading">
-                    <p>{trip.home.kicker}</p>
+                    <p>{archiveDateLabel(trip.home.kicker)}</p>
                     <h3 id={titleId}>{trip.home.title}</h3>
                   </div>
                   <div className="journeys-card__details">
