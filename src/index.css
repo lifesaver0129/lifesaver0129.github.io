@@ -487,16 +487,26 @@ body {
 }
 
 .journeys-card {
-  display: grid;
-  grid-template-columns: minmax(270px, 0.8fr) minmax(0, 1.2fr);
-  gap: clamp(32px, 6vw, 96px);
-  padding: clamp(38px, 5vw, 64px) clamp(16px, 2vw, 28px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.22);
   transition: background-color 180ms ease;
 }
 
-.journeys-card:hover {
+.journeys-card__link {
+  display: grid;
+  grid-template-columns: minmax(270px, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(32px, 6vw, 96px);
+  padding: clamp(38px, 5vw, 64px) clamp(16px, 2vw, 28px);
+  color: inherit;
+}
+
+.journeys-card:hover,
+.journeys-card:focus-within {
   background: rgba(255, 255, 255, 0.025);
+}
+
+.journeys-card__link:focus-visible {
+  outline: 2px solid var(--journey-accent);
+  outline-offset: -2px;
 }
 
 .journeys-card__heading > p {
@@ -546,7 +556,7 @@ body {
   line-height: 1.7;
 }
 
-.journeys-card__details > a {
+.journeys-card__cta {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -760,7 +770,7 @@ body {
     padding-left: 36px;
   }
 
-  .journeys-card {
+  .journeys-card__link {
     grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.2fr);
     gap: 34px;
   }
@@ -977,7 +987,7 @@ body {
     margin-top: 54px;
   }
 
-  .journeys-card {
+  .journeys-card__link {
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 42px 16px 46px;
@@ -987,7 +997,7 @@ body {
     font-size: clamp(2.25rem, 9vw, 3.2rem);
   }
 
-  .journeys-card__details > a {
+  .journeys-card__cta {
     width: 100%;
   }
 

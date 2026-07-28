@@ -54,21 +54,23 @@ const JourneysPage = () => (
 
             return (
               <article className="journeys-card" style={style} aria-labelledby={titleId} key={trip.slug}>
-                <div className="journeys-card__heading">
-                  <p>{trip.home.kicker}</p>
-                  <h3 id={titleId}>{trip.home.title}</h3>
-                </div>
-                <div className="journeys-card__details">
-                  <ul aria-label={`${trip.countryName} trip summary`}>
-                    <li>{trip.countryName}</li>
-                    <li>{trip.hero.stamp.dates}</li>
-                    <li>{trip.itinerary.days.length} days</li>
-                  </ul>
-                  <p>{trip.home.description}</p>
-                  <a href={`/${trip.slug}/`}>
-                    Open itinerary <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
+                <a className="journeys-card__link" href={`/${trip.slug}/`}>
+                  <div className="journeys-card__heading">
+                    <p>{trip.home.kicker}</p>
+                    <h3 id={titleId}>{trip.home.title}</h3>
+                  </div>
+                  <div className="journeys-card__details">
+                    <ul aria-label={`${trip.countryName} trip summary`}>
+                      <li>{trip.countryName}</li>
+                      <li>{trip.hero.stamp.dates}</li>
+                      <li>{trip.itinerary.days.length} days</li>
+                    </ul>
+                    <p>{trip.home.description}</p>
+                    <span className="journeys-card__cta">
+                      Open itinerary <span aria-hidden="true">↗</span>
+                    </span>
+                  </div>
+                </a>
               </article>
             );
           })}
