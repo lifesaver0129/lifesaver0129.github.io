@@ -477,6 +477,7 @@ body {
 
 .journeys-index h2 {
   margin: 0;
+  text-align: right;
   font: 500 clamp(3.6rem, 6vw, 6.8rem)/0.86 var(--hub-serif);
   letter-spacing: -0.05em;
 }
