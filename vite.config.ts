@@ -13,6 +13,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
+        journeys: resolve(__dirname, 'journeys', 'index.html'),
         ...travelInputs,
       },
     },

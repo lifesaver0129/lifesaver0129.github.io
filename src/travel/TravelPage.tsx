@@ -206,7 +206,7 @@ const TravelPage = ({ trip }: { trip: TravelConfig }) => {
   return (
     <div className="travel-site" style={themeStyle}>
       <header className="travel-header">
-        <a className="travel-brand" href="/" aria-label="Back to lifesaverHub">
+        <a className="travel-brand" href="/journeys/" aria-label="Back to all journeys">
           <span>{trip.brand.code}</span>
           <span className="travel-brand__year">{trip.brand.year}</span>
         </a>
@@ -214,8 +214,8 @@ const TravelPage = ({ trip }: { trip: TravelConfig }) => {
           <a href="#route">Route</a>
           <a href="#itinerary">Itinerary</a>
         </nav>
-        <a className="travel-back" href="/">
-          <span aria-hidden="true">←</span> lifesaverHub
+        <a className="travel-back" href="/journeys/">
+          <span aria-hidden="true">←</span> All journeys
         </a>
       </header>
 
@@ -602,8 +602,8 @@ const TravelPage = ({ trip }: { trip: TravelConfig }) => {
           <p>{trip.footer.note}</p>
         </div>
         <nav className="travel-footer__nav" aria-label="Travel page navigation">
-          <a href="/">
-            ← Return home
+          <a href="/journeys/">
+            ← Return to journeys
           </a>
           <a href="#top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             Back to top ↑

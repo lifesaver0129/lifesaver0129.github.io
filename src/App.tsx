@@ -31,6 +31,8 @@ const experiences: Experience[] = [
   },
 ];
 
+const featuredTrips = travelTrips.slice(0, 3);
+
 const App: React.FC = () => (
   <div className="hub-site">
     <header className="hub-header">
@@ -39,7 +41,7 @@ const App: React.FC = () => (
       </a>
       <nav aria-label="Main navigation">
         <a href="#about">Profile</a>
-        <a href="#journey">Journey</a>
+        <a href="/journeys/">Journeys</a>
         <a href="#experience">Experience</a>
       </nav>
     </header>
@@ -59,14 +61,6 @@ const App: React.FC = () => (
             I shape cross-device products and the dependable systems behind them—turning complicated
             engineering into experiences that feel clear, fast, and unsurprising.
           </p>
-          <div className="hub-actions">
-            <a href="#experience">
-              View experience <span aria-hidden="true">↓</span>
-            </a>
-            <a href={`/${travelTrips[0].slug}/`}>
-              Explore latest journey <span aria-hidden="true">↗</span>
-            </a>
-          </div>
         </div>
 
         <div className="hub-hero__graphic" aria-hidden="true">
@@ -117,7 +111,7 @@ const App: React.FC = () => (
           <h2 id="travels-title">Journeys, mapped.</h2>
         </header>
         <div className="hub-journey-list">
-          {travelTrips.map((trip) => {
+          {featuredTrips.map((trip) => {
             const titleId = `journey-${trip.slug}-title`;
 
             return (
@@ -136,6 +130,9 @@ const App: React.FC = () => (
             );
           })}
         </div>
+        <a className="hub-journey-archive-link" href="/journeys/">
+          View all journeys <span aria-hidden="true">↗</span>
+        </a>
       </section>
 
       <section className="hub-experience" id="experience" aria-labelledby="experience-title">
