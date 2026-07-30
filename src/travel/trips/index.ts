@@ -1,5 +1,6 @@
 import type { TravelConfig } from '../types';
 import { australiaTrip } from './australia';
+import { franceTrip } from './france';
 import { newZealandTrip } from './newZealand';
 import { seoulTrip } from './seoul';
 import { singaporeTrip } from './singapore';
@@ -9,6 +10,7 @@ import { usEastTrip } from './usEast';
 import { usWestTrip } from './usWest';
 
 export const travelTrips: TravelConfig[] = [
+  franceTrip,
   spainPortugalTrip,
   australiaTrip,
   ukIrelandTrip,
