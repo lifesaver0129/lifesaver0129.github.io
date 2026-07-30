@@ -117,7 +117,9 @@ const App: React.FC = () => (
             return (
               <article className="hub-journey" aria-labelledby={titleId} key={trip.slug}>
                 <div className="hub-journey__heading">
-                  <p className="hub-kicker">{trip.home.kicker}</p>
+                  <p className="hub-kicker">
+                    {trip.home.kicker.replace(/^FIELD NOTE\s*·\s*/i, '')}
+                  </p>
                   <h3 id={titleId}>{trip.home.title}</h3>
                 </div>
                 <div className="hub-journey__details">
