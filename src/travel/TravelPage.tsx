@@ -30,6 +30,7 @@ const filters: { value: Filter; label: string }[] = [
 ];
 
 const costFormatter = new Intl.NumberFormat("en-US");
+const excludedCostCategories = new Set(['purchases']);
 
 const numberedIcon = (number: number, active: boolean) =>
   L.divIcon({
@@ -142,7 +143,9 @@ const RouteMap = ({
 
 const TravelPage = ({ trip }: { trip: TravelConfig }) => {
   const itinerary = trip.itinerary.days;
-  const otherTripCosts = trip.costs.other;
+  const otherTripCosts = trip.costs.other.filter(
+    (expense) => !excludedCostCategories.has(expense.category.trim().toLowerCase()),
+  );
   const currency = trip.costs.currency;
   const [filter, setFilter] = useState<Filter>('all');
   const [selectedDay, setSelectedDay] = useState(0);

@@ -466,7 +466,7 @@ export const ukIrelandTrip: TravelConfig = {
   costs: {
     currency: 'CNY',
     summaries: {
-      all: { label: 'Trip total · 2 people', total: 107643 },
+      all: { label: 'Trip total · 2 people · purchases excluded', total: 67211 },
       flight: { label: 'Flights total · 2 people', total: 27325 },
       drive: { label: 'Ground transport total', total: 5372 },
       food: { label: 'Dining total', total: 5147 },
@@ -488,10 +488,9 @@ export const ukIrelandTrip: TravelConfig = {
       { filter: 'all', category: 'Souvenirs', item: 'The Sweater Shop', cost: 544 },
       { filter: 'all', category: 'Souvenirs', item: 'Trinity Woollen Mills', cost: 233 },
       { filter: 'all', category: 'Souvenirs', item: 'Airport biscuits and chocolate', cost: 2002 },
-      { filter: 'all', category: 'Purchases', item: 'CHANEL', cost: 38586 },
-      { filter: 'all', category: 'Purchases', item: 'Jellycat', cost: 1846 },
     ],
-    note: 'Excluding purchases: CNY 67,211 · purchases: CNY 40,432',
+    note:
+      'Hotels 18,404 · transport 32,697 · activities 1,884 · dining 5,147 · souvenirs 9,079',
   },
   footer: {
     mark: 'UK + IRELAND / 24',

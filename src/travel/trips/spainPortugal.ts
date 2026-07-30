@@ -429,7 +429,7 @@ export const spainPortugalTrip: TravelConfig = {
   costs: {
     currency: 'CNY',
     summaries: {
-      all: { label: 'Trip total · 2 people', total: 59418 },
+      all: { label: 'Trip total · 2 people · purchases excluded', total: 56923 },
       flight: { label: 'Flights total · 2 people', total: 18972 },
       drive: { label: 'Ground transport total', total: 4422 },
       food: { label: 'Dining total', total: 6258 },
@@ -464,11 +464,9 @@ export const spainPortugalTrip: TravelConfig = {
         detail: 'CNY 65 each · 2 people',
         cost: 130,
       },
-      { filter: 'all', category: 'Purchases', item: 'Camper', cost: 1193 },
-      { filter: 'all', category: 'Purchases', item: 'Skin care', cost: 1302 },
     ],
     note:
-      'Hotels 15,562 · transport 23,394 · activities 3,908 · dining 6,258 · souvenirs 7,801 · purchases 2,495',
+      'Hotels 15,562 · transport 23,394 · activities 3,908 · dining 6,258 · souvenirs 7,801',
   },
   footer: {
     mark: 'IBERIA / 25',

@@ -269,7 +269,7 @@ export const newZealandTrip: TravelConfig = {
   costs: {
     currency: 'CNY',
     summaries: {
-      all: { label: 'Trip total · 2 people', total: totalTripCost },
+      all: { label: 'Trip total · 2 people · purchases excluded', total: totalTripCost },
       flight: { label: 'Flights total · 2 people', total: 13524 },
       drive: { label: 'Road trip total · 2 people', total: 4199 },
       food: { label: 'Food total · 2 people', total: 5805 },

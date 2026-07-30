@@ -428,7 +428,7 @@ export const usWestTrip: TravelConfig = {
   costs: {
     currency: 'CNY',
     summaries: {
-      all: { label: 'Trip total · 2 people', total: 74797 },
+      all: { label: 'Trip total · 2 people · purchases excluded', total: 74797 },
       flight: { label: 'Flights total · 2 people', total: 32547 },
       drive: { label: 'Ground transport total · 2 people', total: 6343 },
       food: { label: 'Dining total · 2 people', total: 10902 },

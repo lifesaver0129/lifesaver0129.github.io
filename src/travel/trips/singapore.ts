@@ -157,7 +157,7 @@ export const singaporeTrip: TravelConfig = {
   costs: {
     currency: 'CNY',
     summaries: {
-      all: { label: 'Trip total · 2 people', total: 14556 },
+      all: { label: 'Trip total · 2 people · purchases excluded', total: 14556 },
       flight: { label: 'Flights total · 2 people', total: 4718 },
       drive: { label: 'Ground transport total · 2 people', total: 522 },
       food: { label: 'Dining total · 2 people', total: 1409 },

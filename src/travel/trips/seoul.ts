@@ -173,20 +173,15 @@ export const seoulTrip: TravelConfig = {
   costs: {
     currency: 'CNY',
     summaries: {
-      all: { label: 'Trip total · 2 people', total: 12277 },
+      all: { label: 'Trip total · 2 people · purchases excluded', total: 7993 },
       flight: { label: 'Flights total · 2 people', total: 3622 },
       drive: { label: 'Ground transport total', total: 262 },
       food: { label: 'Dining total', total: 2733 },
       stay: { label: 'Stays total', total: 1376 },
       visit: { label: 'Experiences total', total: 0 },
     },
-    other: [
-      { filter: 'all', category: 'Purchases', item: 'The North Face', cost: 1633 },
-      { filter: 'all', category: 'Purchases', item: 'Hyundai Department Store clothing', cost: 904 },
-      { filter: 'all', category: 'Purchases', item: 'Aueohom Poodiumin', cost: 115 },
-      { filter: 'all', category: 'Purchases', item: 'Gentle Monster', cost: 1632 },
-    ],
-    note: 'Hotels 1,376 · transport 3,884 · dining 2,733 · purchases 4,284',
+    other: [],
+    note: 'Hotels 1,376 · transport 3,884 · dining 2,733',
   },
   footer: {
     mark: 'SEOUL / 23—24',

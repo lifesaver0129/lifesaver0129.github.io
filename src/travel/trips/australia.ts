@@ -328,7 +328,7 @@ export const australiaTrip: TravelConfig = {
   costs: {
     currency: 'CNY',
     summaries: {
-      all: { label: 'Trip total · 2 people', total: 53269 },
+      all: { label: 'Trip total · 2 people · purchases excluded', total: 35703 },
       flight: { label: 'Flights total · 2 people', total: 9167 },
       drive: { label: 'Ground transport total', total: 1856 },
       food: { label: 'Dining total', total: 4806 },
@@ -366,11 +366,9 @@ export const australiaTrip: TravelConfig = {
         detail: 'CNY 78 each · 2 people',
         cost: 156,
       },
-      { filter: 'all', category: 'Purchases', item: 'Aesop', cost: 399 },
-      { filter: 'all', category: 'Purchases', item: 'Arc’teryx', cost: 17167 },
     ],
     note:
-      'Hotels 7,874 · transport 11,023 · activities 7,930 · dining 4,806 · souvenirs 4,069 · purchases 17,566',
+      'Hotels 7,874 · transport 11,023 · activities 7,930 · dining 4,806 · souvenirs 4,069',
   },
   footer: {
     mark: 'AUSTRALIA / 25',
