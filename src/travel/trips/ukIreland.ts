@@ -1,18 +1,18 @@
 import type { TravelConfig } from '../types';
 
 export const ukIrelandTrip: TravelConfig = {
-  slug: 'ukireland',
+  slug: 'uk',
   countryName: 'United Kingdom + Ireland',
   theme: {
-    ink: '#18352f',
-    inkRgb: '24, 53, 47',
-    cream: '#e9e2d3',
-    creamRgb: '233, 226, 211',
-    paper: '#fbf8f0',
-    paperRgb: '251, 248, 240',
-    accent: '#bd4c3c',
-    accentRgb: '189, 76, 60',
-    secondary: '#a9b9ae',
+    ink: '#012169',
+    inkRgb: '1, 33, 105',
+    cream: '#f0eee8',
+    creamRgb: '240, 238, 232',
+    paper: '#fffdf8',
+    paperRgb: '255, 253, 248',
+    accent: '#c8102e',
+    accentRgb: '200, 16, 46',
+    secondary: '#169b62',
   },
   brand: {
     code: 'UK',
