@@ -17,6 +17,7 @@ const rotationByFilename = new Map([
 const createdDateOverrideByFilename = new Map([
   ['8DEAF8B4-06AD-4CAE-AE4C-7F63214E3DD9.JPG', '2025-07-03T22:06:06+08:00'],
   ['1148.JPG', '2024-03-06T22:20:33+08:00'],
+  ['IMG_8087.JPG', '2023-11-03T23:32:17+08:00'],
   ['4393.JPG', '2025-12-06T23:50:46+08:00'],
 ]);
 const displayDateFormatter = new Intl.DateTimeFormat('en-US', {
