@@ -116,7 +116,9 @@ const createBalancedPhotoRows = (photos: FarewellPhoto[], compact: boolean) => {
   return rows;
 };
 
-const isBirthdayPhoto = (photo: FarewellPhoto) => photo.date.startsWith('March 6,');
+const isBirthdayPhoto = (photo: FarewellPhoto) => (
+  photo.date.startsWith('March 6,') || photo.date === 'March 12, 2023'
+);
 
 const birthdayCakes = Array.from({ length: 30 });
 
