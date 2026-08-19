@@ -699,7 +699,10 @@ body:has(.farewell-site) {
 }
 
 .farewell-note__front-copy strong {
-  font: 400 clamp(1.6rem, 2.5vw, 2.4rem)/1 var(--farewell-display);
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font: 400 clamp(1.45rem, 1.8vw, 2rem)/1.05 var(--farewell-display);
 }
 
 .farewell-note__hint {
