@@ -58,10 +58,7 @@ body:has(.farewell-site) {
   justify-self: start;
   font: 500 0.8rem/1 var(--farewell-mono);
   letter-spacing: 0.1em;
-}
-
-.farewell-mark span {
-  color: var(--farewell-coral);
+  white-space: nowrap;
 }
 
 .farewell-nav > p,
@@ -162,14 +159,17 @@ body:has(.farewell-site) {
 }
 
 .farewell-route {
-  margin: clamp(65px, 8vw, 105px) 0 32px;
+  margin: clamp(65px, 8vw, 105px) 0 12px;
   padding: 24px 0 18px;
   border-top: 1px solid var(--farewell-line);
   border-bottom: 1px solid var(--farewell-line);
 }
 
-.farewell-route__summary,
-.farewell-route__footer {
+.farewell-route--bottom {
+  margin: clamp(60px, 8vw, 100px) 0 0;
+}
+
+.farewell-route__summary {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   gap: 18px;
@@ -179,8 +179,7 @@ body:has(.farewell-site) {
   text-transform: uppercase;
 }
 
-.farewell-route__summary > span:last-child,
-.farewell-route__footer > span:last-child {
+.farewell-route__summary > span:last-child {
   text-align: right;
 }
 
@@ -232,7 +231,7 @@ body:has(.farewell-site) {
 
 .farewell-flight-slider__track {
   position: absolute;
-  top: 29px;
+  top: 51px;
   right: 0;
   left: 0;
   border-top: 2px dashed var(--farewell-coral);
@@ -256,7 +255,7 @@ body:has(.farewell-site) {
 .farewell-flight-slider__plane {
   position: absolute;
   z-index: 2;
-  top: 4px;
+  top: 26px;
   left: var(--farewell-flight-progress);
   display: grid;
   width: 52px;
@@ -276,7 +275,7 @@ body:has(.farewell-site) {
 .farewell-flight-slider input {
   position: absolute;
   z-index: 3;
-  top: 0;
+  top: 21px;
   left: -26px;
   width: calc(100% + 52px);
   height: 62px;
@@ -347,25 +346,13 @@ body:has(.farewell-site) {
   transform: translateY(-2px);
 }
 
-.farewell-route__footer {
-  color: rgba(19, 40, 76, 0.58);
-}
-
-.farewell-route__footer strong {
-  color: var(--farewell-navy);
-  font-weight: 500;
-}
-
-.farewell-carry {
-  padding: clamp(90px, 11vw, 160px) max(24px, calc((100vw - 1280px) / 2));
-}
-
 .farewell-memories {
-  padding: clamp(38px, 4vw, 58px) max(24px, calc((100vw - 1280px) / 2)) clamp(90px, 11vw, 160px);
+  padding: clamp(14px, 2vw, 26px) max(24px, calc((100vw - 1280px) / 2)) clamp(32px, 4vw, 56px);
 }
 
 .farewell-memories .farewell-section-heading {
-  margin-bottom: clamp(34px, 5vw, 64px);
+  grid-template-columns: 1fr;
+  margin-bottom: clamp(28px, 4vw, 52px);
 }
 
 .farewell-section-heading {
@@ -396,43 +383,26 @@ body:has(.farewell-site) {
 
 .farewell-memory-grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
   gap: clamp(10px, 1.5vw, 22px);
+}
+
+.farewell-memory-row {
+  display: flex;
+  gap: clamp(10px, 1.5vw, 22px);
+  align-items: flex-start;
 }
 
 .farewell-memory {
   position: relative;
+  align-self: start;
+  flex: var(--farewell-photo-ratio) 1 0%;
+  min-width: 0;
   margin: 0;
   padding: 0;
   overflow: hidden;
   border: 0;
   background: transparent;
   cursor: zoom-in;
-}
-
-.farewell-memory:nth-child(1),
-.farewell-memory:nth-child(4) {
-  grid-column: span 8;
-}
-
-.farewell-memory:nth-child(2),
-.farewell-memory:nth-child(3) {
-  grid-column: span 4;
-}
-
-.farewell-memory:nth-child(5),
-.farewell-memory:nth-child(6) {
-  grid-column: span 6;
-}
-
-.farewell-memory:nth-child(7),
-.farewell-memory:nth-child(8),
-.farewell-memory:nth-child(9) {
-  grid-column: span 4;
-}
-
-.farewell-memory:nth-child(10) {
-  grid-column: 1 / -1;
 }
 
 .farewell-memory:focus-visible {
@@ -443,20 +413,40 @@ body:has(.farewell-site) {
 .farewell-memory img {
   display: block;
   width: 100%;
-  height: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+  height: auto;
   filter: saturate(0.92) contrast(0.96);
   transition: filter 180ms ease, transform 240ms ease;
 }
 
-.farewell-memory:nth-child(2) img,
-.farewell-memory:nth-child(3) img {
-  aspect-ratio: 2 / 3;
+.farewell-memory__date {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 7px 9px;
+  border-radius: 999px;
+  color: var(--farewell-cream);
+  background: rgba(7, 16, 31, 0.7);
+  backdrop-filter: blur(8px);
+  font: 500 0.58rem/1 var(--farewell-mono);
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  text-transform: uppercase;
 }
 
-.farewell-memory:nth-child(10) img {
-  aspect-ratio: 2 / 1;
+.farewell-memory__birthday-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 8px 11px;
+  border: 2px solid var(--farewell-navy);
+  border-radius: 999px;
+  color: var(--farewell-navy);
+  background: var(--farewell-yellow);
+  box-shadow: 3px 4px 0 rgba(19, 40, 76, 0.25);
+  font: 600 0.62rem/1 var(--farewell-mono);
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  text-transform: uppercase;
 }
 
 .farewell-memory:hover img,
@@ -480,6 +470,8 @@ body:has(.farewell-site) {
 }
 
 .farewell-lightbox > img {
+  position: relative;
+  z-index: 2;
   grid-column: 2;
   grid-row: 1 / -1;
   max-width: 100%;
@@ -489,10 +481,14 @@ body:has(.farewell-site) {
 }
 
 .farewell-lightbox > p {
-  z-index: 1;
+  z-index: 4;
   grid-column: 2;
   grid-row: 3;
   align-self: end;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  min-width: min(100%, 320px);
   margin: 0;
   padding: 8px 12px;
   border-radius: 999px;
@@ -502,6 +498,8 @@ body:has(.farewell-site) {
 }
 
 .farewell-lightbox button {
+  position: relative;
+  z-index: 4;
   display: grid;
   place-items: center;
   width: 48px;
@@ -536,6 +534,36 @@ body:has(.farewell-site) {
   grid-row: 2;
 }
 
+.farewell-birthday-shower {
+  position: fixed;
+  z-index: 3;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.farewell-birthday-shower span {
+  position: absolute;
+  top: -80px;
+  left: var(--farewell-cake-left);
+  font-size: var(--farewell-cake-size);
+  animation: farewell-cake-fall var(--farewell-cake-duration) cubic-bezier(0.18, 0.72, 0.25, 1) var(--farewell-cake-delay) both;
+  filter: drop-shadow(0 4px 2px rgba(0, 0, 0, 0.22));
+  will-change: transform, opacity;
+}
+
+@keyframes farewell-cake-fall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -12vh, 0) rotate(-20deg) scale(0.65);
+  }
+  12% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--farewell-cake-drift), calc(100vh + 150px), 0) rotate(620deg) scale(1.08);
+  }
+}
+
 .farewell-notes {
   padding: clamp(90px, 11vw, 160px) max(24px, calc((100vw - 1280px) / 2));
   color: var(--farewell-cream);
@@ -551,20 +579,16 @@ body:has(.farewell-site) {
 
 .farewell-note-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(22px, 3vw, 40px);
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(18px, 2.4vw, 32px);
 }
 
 .farewell-note {
+  --farewell-note-background: var(--farewell-cream);
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 330px;
-  padding: clamp(30px, 3vw, 46px);
+  min-height: 260px;
   color: var(--farewell-navy);
-  background: var(--farewell-cream);
-  box-shadow: 9px 10px 0 rgba(0, 0, 0, 0.18);
+  perspective: 1200px;
   transform: rotate(-1deg);
 }
 
@@ -576,12 +600,155 @@ body:has(.farewell-site) {
   transform: rotate(-0.5deg) translateY(-8px);
 }
 
-.farewell-note--coral { background: #f4b2a4; }
-.farewell-note--blue { background: #b9d7e2; }
-.farewell-note--yellow { background: #f5d57b; }
-.farewell-note--pink { background: #f2c7ce; }
-.farewell-note--green { background: #bdd2b8; }
-.farewell-note--navy { color: var(--farewell-cream); background: #e96a4c; }
+.farewell-note--coral { --farewell-note-background: #f4b2a4; }
+.farewell-note--blue { --farewell-note-background: #b9d7e2; }
+.farewell-note--yellow { --farewell-note-background: #f5d57b; }
+.farewell-note--pink { --farewell-note-background: #f2c7ce; }
+.farewell-note--green { --farewell-note-background: #bdd2b8; }
+.farewell-note--navy {
+  --farewell-note-background: #e96a4c;
+  color: var(--farewell-cream);
+}
+
+.farewell-note__button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.farewell-note__inner {
+  display: grid;
+  width: 100%;
+  min-height: 280px;
+  transform-style: preserve-3d;
+  transition: transform 620ms cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+.farewell-note[data-open='true'] .farewell-note__inner {
+  transform: rotateY(180deg);
+}
+
+.farewell-note__face {
+  position: relative;
+  grid-area: 1 / 1;
+  display: flex;
+  min-height: 280px;
+  padding: clamp(22px, 2.2vw, 32px);
+  overflow: hidden;
+  background: var(--farewell-note-background);
+  box-shadow: 9px 10px 0 rgba(0, 0, 0, 0.18);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.farewell-note__front {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.farewell-note__front::before,
+.farewell-note__front::after {
+  position: absolute;
+  inset-inline: 0;
+  content: '';
+  pointer-events: none;
+}
+
+.farewell-note__front::before {
+  top: 0;
+  height: 60%;
+  background: rgba(255, 249, 236, 0.24);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.farewell-note__front::after {
+  bottom: 0;
+  height: 52%;
+  border-top: 1px solid rgba(19, 40, 76, 0.18);
+  background: rgba(19, 40, 76, 0.06);
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+}
+
+.farewell-note__front-copy {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: min(84%, 250px);
+  gap: 13px;
+  padding: 23px 18px;
+  border: 1px solid rgba(19, 40, 76, 0.18);
+  color: var(--farewell-navy);
+  background: var(--farewell-cream);
+  box-shadow: 5px 6px 0 rgba(19, 40, 76, 0.13);
+  transform: rotate(-1deg);
+}
+
+.farewell-note__kicker,
+.farewell-note__hint {
+  font: 600 0.6rem/1.25 var(--farewell-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.farewell-note__front-copy strong {
+  font: 400 clamp(1.6rem, 2.5vw, 2.4rem)/1 var(--farewell-display);
+}
+
+.farewell-note__hint {
+  opacity: 0.58;
+}
+
+.farewell-note__back {
+  flex-direction: column;
+  justify-content: space-between;
+  transform: rotateY(180deg);
+}
+
+.farewell-note__message {
+  margin: 26px 0 32px;
+  font: 400 clamp(1.08rem, 1.45vw, 1.45rem)/1.35 var(--farewell-display);
+}
+
+.farewell-note__footer {
+  display: grid;
+  gap: 6px;
+  border-top: 1px solid currentColor;
+  padding-top: 13px;
+}
+
+.farewell-note__footer strong {
+  font: 700 0.72rem/1 var(--farewell-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.farewell-note__footer > span {
+  font: 500 0.58rem/1.2 var(--farewell-mono);
+  letter-spacing: 0.07em;
+  opacity: 0.58;
+  text-transform: uppercase;
+}
+
+.farewell-note__button:hover .farewell-note__face {
+  filter: brightness(1.025);
+}
+
+.farewell-note__button:focus-visible {
+  outline: none;
+}
+
+.farewell-note__button:focus-visible .farewell-note__face {
+  outline: 4px solid var(--farewell-yellow);
+  outline-offset: 4px;
+}
 
 .farewell-note__pin {
   position: absolute;
@@ -596,104 +763,25 @@ body:has(.farewell-site) {
   transform: translateX(-50%);
 }
 
-.farewell-note > p {
-  margin: 30px 0 48px;
-  font: 400 clamp(1.35rem, 2vw, 1.8rem)/1.4 var(--farewell-display);
-}
-
-.farewell-note footer {
-  display: grid;
-  gap: 5px;
-  border-top: 1px solid currentColor;
-  padding-top: 17px;
-}
-
-.farewell-note footer strong {
-  font: 700 0.8rem/1 var(--farewell-mono);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.farewell-note footer span {
-  font-size: 0.78rem;
-  opacity: 0.66;
-}
-
-.farewell-carry {
-  border-bottom: 1px solid var(--farewell-line);
-}
-
-.farewell-carry .farewell-section-heading {
-  grid-template-columns: 1fr;
-}
-
-.farewell-carry__grid {
-  border-top: 1px solid var(--farewell-navy);
-}
-
-.farewell-carry__grid article {
-  display: grid;
-  grid-template-columns: 70px minmax(220px, 0.6fr) minmax(280px, 1fr);
-  gap: 32px;
-  align-items: center;
-  padding: 30px 0;
-  border-bottom: 1px solid var(--farewell-line);
-}
-
-.farewell-carry__grid article > span {
-  color: var(--farewell-coral);
-  font: 500 0.7rem/1 var(--farewell-mono);
-}
-
-.farewell-carry__grid h3 {
-  margin: 0;
-  font: 400 clamp(1.8rem, 3vw, 2.8rem)/1 var(--farewell-display);
-}
-
-.farewell-carry__grid p {
-  margin: 0;
-  font-size: 1.02rem;
-  line-height: 1.6;
-}
-
 .farewell-final {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(240px, 0.44fr) minmax(0, 1fr);
-  gap: clamp(50px, 10vw, 150px);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
-  min-height: 720px;
+  min-height: 620px;
   padding: clamp(90px, 10vw, 150px) max(24px, calc((100vw - 1280px) / 2));
-  color: var(--farewell-cream);
-  background: var(--farewell-coral);
-}
-
-.farewell-final__stamp {
-  position: relative;
-  display: grid;
-  width: min(100%, 370px);
-  aspect-ratio: 1;
-  place-items: center;
-  border: 4px double currentColor;
-  border-radius: 50%;
-  font: 400 clamp(2.8rem, 5vw, 5rem)/1 var(--farewell-display);
-  letter-spacing: -0.04em;
-  transform: rotate(-9deg);
-}
-
-.farewell-final__stamp span {
-  position: absolute;
-  font: 400 1.6rem/1 var(--farewell-sans);
-  transform: rotate(9deg);
+  color: var(--farewell-navy);
+  background: var(--farewell-paper);
 }
 
 .farewell-final__copy {
   position: relative;
   z-index: 2;
+  max-width: 1000px;
 }
 
 .farewell-final .farewell-eyebrow {
-  color: var(--farewell-yellow);
+  color: var(--farewell-coral);
 }
 
 .farewell-final h2 {
@@ -713,12 +801,12 @@ body:has(.farewell-site) {
 .farewell-final button {
   border: 0;
   border-radius: 999px;
-  padding: 19px 25px;
-  color: var(--farewell-navy);
-  background: var(--farewell-yellow);
+  padding: 22px 34px;
+  color: var(--farewell-cream);
+  background: var(--farewell-coral);
   box-shadow: 0 7px 0 var(--farewell-navy);
   cursor: pointer;
-  font: 600 0.72rem/1 var(--farewell-mono);
+  font: 600 0.8rem/1 var(--farewell-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: transform 150ms ease, box-shadow 150ms ease;
@@ -738,9 +826,9 @@ body:has(.farewell-site) {
 }
 
 .farewell-confetti {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 30;
   overflow: hidden;
   pointer-events: none;
 }
@@ -749,33 +837,33 @@ body:has(.farewell-site) {
   position: absolute;
   top: -40px;
   left: 7%;
-  color: var(--farewell-yellow);
-  font-size: clamp(1.2rem, 2.4vw, 2.6rem);
-  animation: farewell-fall 1600ms cubic-bezier(0.2, 0.7, 0.25, 1) forwards;
+  color: var(--farewell-coral);
+  font-size: clamp(2.2rem, 5vw, 5rem);
+  animation: farewell-fall 2200ms cubic-bezier(0.2, 0.7, 0.25, 1) forwards;
 }
 
 .farewell-confetti span:nth-child(1) { left: 7%; animation-delay: 0ms; }
 .farewell-confetti span:nth-child(2) { left: 15%; animation-delay: 120ms; color: var(--farewell-blue); }
-.farewell-confetti span:nth-child(3) { left: 23%; animation-delay: 50ms; }
+.farewell-confetti span:nth-child(3) { left: 23%; animation-delay: 50ms; color: var(--farewell-navy); }
 .farewell-confetti span:nth-child(4) { left: 31%; animation-delay: 180ms; color: var(--farewell-cream); }
-.farewell-confetti span:nth-child(5) { left: 39%; animation-delay: 20ms; }
+.farewell-confetti span:nth-child(5) { left: 39%; animation-delay: 20ms; color: var(--farewell-navy); }
 .farewell-confetti span:nth-child(6) { left: 47%; animation-delay: 260ms; color: var(--farewell-blue); }
-.farewell-confetti span:nth-child(7) { left: 55%; animation-delay: 90ms; }
+.farewell-confetti span:nth-child(7) { left: 55%; animation-delay: 90ms; color: var(--farewell-navy); }
 .farewell-confetti span:nth-child(8) { left: 63%; animation-delay: 210ms; color: var(--farewell-cream); }
-.farewell-confetti span:nth-child(9) { left: 71%; animation-delay: 60ms; }
+.farewell-confetti span:nth-child(9) { left: 71%; animation-delay: 60ms; color: var(--farewell-navy); }
 .farewell-confetti span:nth-child(10) { left: 79%; animation-delay: 160ms; color: var(--farewell-blue); }
-.farewell-confetti span:nth-child(11) { left: 87%; animation-delay: 300ms; }
+.farewell-confetti span:nth-child(11) { left: 87%; animation-delay: 300ms; color: var(--farewell-navy); }
 .farewell-confetti span:nth-child(12) { left: 94%; animation-delay: 110ms; color: var(--farewell-cream); }
 
 @keyframes farewell-fall {
   0% { opacity: 0; transform: translateY(-40px) rotate(0deg); }
   12% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(760px) rotate(520deg); }
+  100% { opacity: 0; transform: translateY(calc(100vh + 140px)) rotate(620deg); }
 }
 
 .farewell-footer {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto;
   gap: 30px;
   align-items: center;
   min-height: 110px;
@@ -799,6 +887,12 @@ body:has(.farewell-site) {
 .farewell-footer a {
   justify-self: end;
   border-bottom: 1px solid currentColor;
+}
+
+@media (max-width: 1100px) {
+  .farewell-note-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 900px) {
@@ -825,17 +919,10 @@ body:has(.farewell-site) {
     max-width: 380px;
   }
 
-  .farewell-note-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .farewell-final {
     grid-template-columns: 1fr;
   }
 
-  .farewell-final__stamp {
-    width: 230px;
-  }
 }
 
 @media (max-width: 640px) {
@@ -880,6 +967,7 @@ body:has(.farewell-site) {
   }
 
   .farewell-flight-slider__plane {
+    top: 28px;
     width: 48px;
     height: 48px;
   }
@@ -890,39 +978,12 @@ body:has(.farewell-site) {
     font-size: 0.52rem;
   }
 
-  .farewell-route__footer {
-    grid-template-columns: 1fr;
-    gap: 6px;
-    text-align: center;
-  }
-
-  .farewell-route__footer > span:last-child {
-    display: none;
-  }
-
   .farewell-memory-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 
-  .farewell-memory:nth-child(n) {
-    grid-column: span 1;
-  }
-
-  .farewell-memory:nth-child(1),
-  .farewell-memory:nth-child(6),
-  .farewell-memory:nth-child(10) {
-    grid-column: 1 / -1;
-  }
-
-  .farewell-memory:nth-child(n) img {
-    aspect-ratio: 1 / 1;
-  }
-
-  .farewell-memory:nth-child(1) img,
-  .farewell-memory:nth-child(6) img,
-  .farewell-memory:nth-child(10) img {
-    aspect-ratio: 16 / 10;
+  .farewell-memory-row {
+    gap: 10px;
   }
 
   .farewell-lightbox {
@@ -949,17 +1010,8 @@ body:has(.farewell-site) {
     transform: rotate(-0.6deg);
   }
 
-  .farewell-carry__grid article {
-    grid-template-columns: 42px 1fr;
-    gap: 16px;
-  }
-
-  .farewell-carry__grid p {
-    grid-column: 2;
-  }
-
   .farewell-final {
-    min-height: 760px;
+    min-height: 620px;
   }
 
   .farewell-footer {
@@ -974,6 +1026,13 @@ body:has(.farewell-site) {
   .farewell-footer a {
     justify-self: start;
     text-align: left;
+  }
+}
+
+@media (max-width: 430px) {
+  .farewell-mark {
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
   }
 }
 

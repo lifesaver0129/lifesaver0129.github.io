@@ -1,11 +1,22 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, readdir, writeFile } from 'node:fs/promises';
+import { homedir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const distRoot = join(projectRoot, 'dist');
 const sourceHtmlPath = join(distRoot, 'farewell', 'index.html');
-const outputPath = '/Users/lifesaver/Downloads/farewell-team-template.html';
+const outputPath = process.argv[2] ?? join(homedir(), 'Downloads', 'farewell-team-template.html');
+
+async function walk(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const paths = await Promise.all(entries.map(async (entry) => {
+    const path = join(directory, entry.name);
+    return entry.isDirectory() ? walk(path) : [path];
+  }));
+
+  return paths.flat();
+}
 
 let html = await readFile(sourceHtmlPath, 'utf8');
 
@@ -22,12 +33,12 @@ const [css, rawJavaScript] = await Promise.all([
   readFile(assetPath(scriptSrc), 'utf8'),
 ]);
 
-const embeddedImages = await Promise.all(
-  ['hero.png', 'lunch.png', 'presentation.png', 'coffee.png', 'celebration.png'].map(async (name) => {
-    const data = await readFile(join(projectRoot, 'public', 'farewell', name));
-    return [`/farewell/${name}`, `data:image/png;base64,${data.toString('base64')}`];
-  }),
-);
+const publicPhotoRoot = join(projectRoot, 'public', 'farewell', 'photos');
+const embeddedImages = await Promise.all((await walk(publicPhotoRoot)).map(async (path) => {
+  const publicPath = path.slice(join(projectRoot, 'public').length).split('\\').join('/');
+  const data = await readFile(path);
+  return [publicPath, `data:image/jpeg;base64,${data.toString('base64')}`];
+}));
 
 let javascript = rawJavaScript;
 for (const [source, embedded] of embeddedImages) {
@@ -42,8 +53,8 @@ html = html
     /<link rel="icon"[^>]*>/,
     () => `<link rel="icon" type="image/jpeg" href="${faviconData}">`,
   )
-  .replace(/\s*<meta property="og:image"[^>]*>/, '')
-  .replace(/\s*<meta name="twitter:image"[^>]*>/, '')
+  .replace(/\s*<meta\s+[^>]*property="og:image"[^>]*>/, '')
+  .replace(/\s*<meta\s+[^>]*name="twitter:image"[^>]*>/, '')
   .replace(
     /<link rel="stylesheet"[^>]+href="[^"]+"[^>]*>/,
     () => `<style>${css.replaceAll('</style', '<\\/style')}</style>`,
@@ -56,7 +67,7 @@ html = html
   .replace(
     '<!doctype html>',
     () =>
-      '<!doctype html>\n<!-- Self-contained farewell website sample. Mock names, notes, and generated photos are included for preview use. -->',
+      '<!doctype html>\n<!-- Self-contained farewell website. Personal photos are embedded for offline viewing. -->',
   );
 
 await writeFile(outputPath, html, 'utf8');

@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { farewellPhotosByYear, type FarewellPhoto } from './farewellPhotos';
 import './farewell.css';
-
-type Memory = {
-  image: string;
-  alt: string;
-  label?: string;
-  caption?: string;
-  className?: string;
-};
 
 type Note = {
   author: string;
-  role: string;
   message: string;
   accent: string;
 };
@@ -19,169 +11,214 @@ type Note = {
 type YearStop = {
   year: number;
   label: string;
-  detail: string;
 };
-
-const memoryFrames: Pick<Memory, 'image' | 'alt'>[] = [
-  {
-    image: '/farewell/lunch.png',
-    alt: 'Avery laughing with teammates over lunch',
-  },
-  {
-    image: '/farewell/presentation.png',
-    alt: 'Avery presenting an idea to the team',
-  },
-  {
-    image: '/farewell/coffee.png',
-    alt: 'Avery smiling and holding a cup of coffee',
-  },
-  {
-    image: '/farewell/celebration.png',
-    alt: 'Avery celebrating with a group of coworkers',
-  },
-  {
-    image: '/farewell/team-collaboration.jpg',
-    alt: 'Coworkers collaborating around a table of sketches and sticky notes',
-  },
-  {
-    image: '/farewell/launch-celebration.jpg',
-    alt: 'Coworkers celebrating a successful launch with coffee and confetti',
-  },
-  {
-    image: '/farewell/coffee-break.jpg',
-    alt: 'Three coworkers laughing together over coffee',
-  },
-  {
-    image: '/farewell/mentoring.jpg',
-    alt: 'Two coworkers sharing ideas beside a laptop',
-  },
-  {
-    image: '/farewell/park-picnic.jpg',
-    alt: 'Coworkers sharing a picnic lunch in a leafy park',
-  },
-  {
-    image: '/farewell/team-dinner.jpg',
-    alt: 'Coworkers gathering for a cheerful team dinner photo',
-  },
-];
 
 const yearStops: YearStop[] = [
-  { year: 2019, label: 'Hello, team', detail: 'The first coffee' },
-  { year: 2020, label: 'Finding a rhythm', detail: 'The lunch club begins' },
-  { year: 2021, label: 'Growing together', detail: 'The big ideas arrive' },
-  { year: 2022, label: 'Big ideas', detail: 'The good stuff' },
-  { year: 2023, label: 'Building momentum', detail: 'The legendary launches' },
-  { year: 2024, label: 'Full speed', detail: 'A very good year' },
-  { year: 2025, label: 'One more chapter', detail: 'The favorite projects' },
-  { year: 2026, label: 'New coordinates', detail: 'One last cheer' },
+  { year: 2019, label: 'Hello, team' },
+  { year: 2020, label: 'Finding a rhythm' },
+  { year: 2021, label: 'Growing together' },
+  { year: 2022, label: 'Big ideas' },
+  { year: 2023, label: 'Building momentum' },
+  { year: 2024, label: 'Full speed' },
+  { year: 2025, label: 'One more chapter' },
+  { year: 2026, label: 'New coordinates' },
 ];
-
-const yearStories: Record<number, Pick<Memory, 'label' | 'caption'>[]> = {
-  2019: [
-    { label: 'THE FIRST TEAM LUNCH', caption: 'New faces, shared noodles, and the start of something very good.' },
-    { label: 'HELLO, WHITEBOARD', caption: 'The first idea you made clearer for everyone in the room.' },
-    { label: 'WEEK ONE FUEL', caption: 'A new desk, a brave hello, and one very necessary coffee.' },
-    { label: 'THE GROUP CHAT BEGINS', caption: 'Before the inside jokes had years of backstory.' },
-  ],
-  2020: [
-    { label: 'FINDING OUR RHYTHM', caption: 'A year of adapting, learning, and finding new ways to stay close.' },
-    { label: 'THE REMOTE PITCH', caption: 'You made a tiny video-call square feel like the center of the room.' },
-    { label: 'HOME OFFICE FUEL', caption: 'Coffee, courage, and an impressive number of open tabs.' },
-    { label: 'STILL TOGETHER', caption: 'Different desks, same generous team spirit.' },
-  ],
-  2021: [
-    { label: 'BACK AROUND THE TABLE', caption: 'The conversations picked up exactly where we left them.' },
-    { label: 'THE BIG IDEA', caption: 'A sketch, a question, and the beginning of something ambitious.' },
-    { label: 'ANOTHER COFFEE RUN', caption: 'Some traditions were far too important to leave behind.' },
-    { label: 'GROWING TOGETHER', caption: 'New challenges, stronger friendships, and plenty to celebrate.' },
-  ],
-  2022: [
-    { label: 'THE FIRST TEAM LUNCH', caption: 'New faces, shared noodles, and the start of something very good.' },
-    { label: 'HELLO, WHITEBOARD', caption: 'The first idea you made clearer for everyone in the room.' },
-    { label: 'WEEK ONE FUEL', caption: 'A new desk, a brave hello, and one very necessary coffee.' },
-    { label: 'THE GROUP CHAT BEGINS', caption: 'Before the inside jokes had years of backstory.' },
-  ],
-  2023: [
-    { label: 'TUESDAY LUNCH CLUB', caption: 'The meeting that never needed an agenda.' },
-    { label: 'THE BIG PITCH', caption: 'You asked the question that changed the whole plan.' },
-    { label: 'PROTOTYPE FUEL', caption: 'Powered by oat lattes and unreasonable optimism.' },
-    { label: 'WE SHIPPED IT', caption: 'Equal parts relief, pride, and very loud cheering.' },
-  ],
-  2024: [
-    { label: 'THE LONG LUNCH', caption: 'When a quick bite became the best conversation of the week.' },
-    { label: 'THE GOOD IDEA WALL', caption: 'You made complicated things feel wonderfully obvious.' },
-    { label: 'CALM IN THE CHAOS', caption: 'Somehow, you always knew which problem mattered first.' },
-    { label: 'THE MIDWAY CHEER', caption: 'Halfway through the story and already so much worth framing.' },
-  ],
-  2025: [
-    { label: 'NO-AGENDA MEETING', caption: 'Good food, better gossip, and absolutely no action items.' },
-    { label: 'ONE MORE AMBITIOUS IDEA', caption: 'The sketch that quietly became everyone’s favorite project.' },
-    { label: 'THE 4 PM RESET', caption: 'Coffee first. Miracles shortly afterward.' },
-    { label: 'A VERY GOOD YEAR', caption: 'Big launches, tiny victories, and the people who made both matter.' },
-  ],
-  2026: [
-    { label: 'ONE LAST LUNCH', caption: 'The meeting we wished could stay on the calendar forever.' },
-    { label: 'PASSING IT FORWARD', caption: 'One more generous explanation before the next adventure.' },
-    { label: 'COFFEE FOR THE ROAD', caption: 'Same order, different city, brand-new view.' },
-    { label: 'ONE MORE FOR THE WALL', caption: 'Proof that the best projects were always the people.' },
-  ],
-};
 
 const notes: Note[] = [
   {
-    author: 'Maya',
-    role: 'Design',
+    author: 'Ying Zhou',
     message:
       'Thank you for making every hard problem feel solvable—and every quiet teammate feel heard. Toronto is getting one of the very best.',
     accent: 'coral',
   },
   {
-    author: 'Theo',
-    role: 'Engineering',
+    author: 'Jingwen Xu',
     message:
       'I will miss your unreasonably good questions, your emergency snack drawer, and the way you somehow fixed things before the rest of us noticed.',
     accent: 'blue',
   },
   {
-    author: 'Priya',
-    role: 'Product',
+    author: 'Na Li',
     message:
       'This is not goodbye. It is merely a very inconvenient timezone change. Keep a seat for us by the lake.',
     accent: 'yellow',
   },
   {
-    author: 'Jin',
-    role: 'Operations',
+    author: 'Yuxing Hu',
     message:
       'You brought so much kindness to ordinary days. I hope this next chapter brings you the same joy you gave all of us.',
     accent: 'pink',
   },
   {
-    author: 'Sam',
-    role: 'Research',
+    author: 'Chunxue Wang',
     message:
       'May your winter coat be sturdy, your poutine warm, and your video calls only occasionally scheduled at impossible hours.',
     accent: 'green',
   },
   {
-    author: 'The whole team',
-    role: 'Your fan club',
+    author: 'Zelin Liao',
     message:
-      'Different city. Same group chat. We are so proud of you, Avery—and so excited to see where your curiosity takes you next.',
+      'Thank you for all the tiny acts of care that made this team feel like a team. We will carry that kindness forward.',
+    accent: 'coral',
+  },
+  {
+    author: 'Hongyang Jiang',
+    message:
+      'Toronto gets your ideas, your laughter, and your legendary lunch recommendations. We expect regular updates on all three.',
+    accent: 'blue',
+  },
+  {
+    author: 'Wenlong Ruan',
+    message:
+      'Different city. Same group chat. We are so proud of you, Clarissa—and so excited to see where your curiosity takes you next.',
     accent: 'navy',
   },
 ];
 
 const confetti = ['✦', '●', '★', '◆', '♥', '✦', '●', '★', '◆', '♥', '✦', '●'];
 
+const createBalancedPhotoRows = (photos: FarewellPhoto[], compact: boolean) => {
+  if (photos.length < 2) return [photos];
+
+  const maximumItems = compact ? 3 : 4;
+  const targetAspectRatio = compact ? 3 : 4.5;
+  const costs = Array(photos.length + 1).fill(Number.POSITIVE_INFINITY);
+  const previousBreak = Array<number | null>(photos.length + 1).fill(null);
+  costs[0] = 0;
+
+  for (let end = 1; end <= photos.length; end += 1) {
+    for (let itemCount = 2; itemCount <= maximumItems; itemCount += 1) {
+      const start = end - itemCount;
+      if (start < 0 || !Number.isFinite(costs[start])) continue;
+
+      const rowAspectRatio = photos
+        .slice(start, end)
+        .reduce((total, photo) => total + photo.width / photo.height, 0);
+      const candidateCost = costs[start] + (rowAspectRatio - targetAspectRatio) ** 2;
+
+      if (candidateCost < costs[end]) {
+        costs[end] = candidateCost;
+        previousBreak[end] = start;
+      }
+    }
+  }
+
+  if (previousBreak[photos.length] === null) return [photos];
+
+  const rows: FarewellPhoto[][] = [];
+  let end = photos.length;
+  while (end > 0) {
+    const start = previousBreak[end] ?? 0;
+    rows.unshift(photos.slice(start, end));
+    end = start;
+  }
+
+  return rows;
+};
+
+const isBirthdayPhoto = (photo: FarewellPhoto) => photo.date.startsWith('March 6,');
+
+const birthdayCakes = Array.from({ length: 30 });
+
+type YearSelectorProps = {
+  onYearChange: (year: number) => void;
+  placement: 'top' | 'bottom';
+  selectedYear: number;
+};
+
+const YearSelector: React.FC<YearSelectorProps> = ({ onYearChange, placement, selectedYear }) => {
+  const activeYear = yearStops.find((stop) => stop.year === selectedYear) ?? yearStops[0];
+  const firstYear = yearStops[0].year;
+  const lastYear = yearStops[yearStops.length - 1].year;
+  const progress = ((selectedYear - firstYear) / (yearStops.length - 1)) * 100;
+  const isBottom = placement === 'bottom';
+  const placementSuffix = isBottom ? ' at the end of the gallery' : '';
+
+  return (
+    <div
+      aria-label={isBottom ? "Choose another year from Clarissa's journey" : "Choose a year from Clarissa's journey"}
+      className={`farewell-route farewell-route--${placement}`}
+    >
+      <div className="farewell-route__summary">
+        <span>PEK · Beijing</span>
+        <strong>{selectedYear}</strong>
+        <span>YYZ · Toronto</span>
+      </div>
+      <div className="farewell-route__control">
+        <button
+          aria-label={`Show the previous year${placementSuffix}`}
+          disabled={selectedYear === firstYear}
+          onClick={() => onYearChange(Math.max(firstYear, selectedYear - 1))}
+          type="button"
+        >
+          ←
+        </button>
+        <div
+          className="farewell-flight-slider"
+          style={{ '--farewell-flight-progress': `${progress}%` } as React.CSSProperties}
+        >
+          <div className="farewell-flight-slider__track" aria-hidden="true" />
+          <span className="farewell-flight-slider__plane" aria-hidden="true">✈</span>
+          <input
+            aria-controls="memories"
+            aria-label={isBottom ? 'Choose the year after the photos' : 'Choose the year of the photos'}
+            aria-valuetext={`${selectedYear}: ${activeYear.label}`}
+            max={lastYear}
+            min={firstYear}
+            onChange={(event) => onYearChange(Number(event.currentTarget.value))}
+            step="1"
+            type="range"
+            value={selectedYear}
+          />
+          <div className="farewell-flight-slider__years" aria-hidden="true">
+            {yearStops.map((stop) => (
+              <span data-active={selectedYear === stop.year} key={stop.year}>{stop.year}</span>
+            ))}
+          </div>
+        </div>
+        <button
+          aria-label={`Show the next year${placementSuffix}`}
+          disabled={selectedYear === lastYear}
+          onClick={() => onYearChange(Math.min(lastYear, selectedYear + 1))}
+          type="button"
+        >
+          →
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const FarewellPage: React.FC = () => {
   const [celebration, setCelebration] = useState(0);
   const [selectedYear, setSelectedYear] = useState(2019);
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
-  const activeYear = yearStops.find((stop) => stop.year === selectedYear) ?? yearStops[0];
-  const yearProgress = ((selectedYear - yearStops[0].year) / (yearStops.length - 1)) * 100;
-  const yearOffset = selectedYear - yearStops[0].year;
-  const memories = memoryFrames.map((_, index) => memoryFrames[(index + yearOffset) % memoryFrames.length]);
+  const [openNotes, setOpenNotes] = useState<Set<string>>(() => new Set());
+  const laughAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [compactGallery, setCompactGallery] = useState(() => (
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches
+  ));
+  const memories = farewellPhotosByYear[selectedYear] ?? [];
+  const memoryRows = createBalancedPhotoRows(memories, compactGallery);
+
+  const sendLove = () => {
+    setCelebration((value) => value + 1);
+
+    const audio = laughAudioRef.current;
+    if (!audio) return;
+
+    audio.pause();
+    audio.currentTime = 0;
+    void audio.play().catch(() => undefined);
+  };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 900px)');
+    const updateGalleryDensity = () => setCompactGallery(mediaQuery.matches);
+    updateGalleryDensity();
+    mediaQuery.addEventListener('change', updateGalleryDensity);
+    return () => mediaQuery.removeEventListener('change', updateGalleryDensity);
+  }, []);
 
   useEffect(() => {
     if (previewIndex === null) return undefined;
@@ -209,8 +246,8 @@ const FarewellPage: React.FC = () => {
   return (
     <div className="farewell-site">
       <header className="farewell-nav">
-        <a className="farewell-mark" href="#top" aria-label="Avery's farewell page home">
-          A <span>→</span> A
+        <a className="farewell-mark" href="#top" aria-label="Clarissa's farewell page home">
+          A FAREWELL FOR CLARISSA
         </a>
         <p>Beijing · 2019—2026</p>
         <a className="farewell-nav__link" href="#notes">
@@ -221,7 +258,6 @@ const FarewellPage: React.FC = () => {
       <main>
         <section className="farewell-hero" id="top" aria-labelledby="farewell-title">
           <div className="farewell-hero__copy">
-            <p className="farewell-eyebrow">A FAREWELL FOR AVERY · MADE WITH A LOT OF LOVE</p>
             <h1 id="farewell-title">
               Not goodbye.
               <br />
@@ -237,82 +273,50 @@ const FarewellPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="farewell-route" aria-label="Choose a year from Avery's journey">
-            <div className="farewell-route__summary">
-              <span>PEK · Beijing</span>
-              <strong>{selectedYear}</strong>
-              <span>YYZ · Toronto</span>
-            </div>
-            <div className="farewell-route__control">
-              <button
-                aria-label="Show the previous year"
-                disabled={selectedYear === yearStops[0].year}
-                onClick={() => setSelectedYear((year) => Math.max(yearStops[0].year, year - 1))}
-                type="button"
-              >
-                ←
-              </button>
-              <div
-                className="farewell-flight-slider"
-                style={{ '--farewell-flight-progress': `${yearProgress}%` } as React.CSSProperties}
-              >
-                <div className="farewell-flight-slider__track" aria-hidden="true" />
-                <span className="farewell-flight-slider__plane" aria-hidden="true">✈</span>
-                <input
-                  aria-controls="memories"
-                  aria-label="Choose the year of the photos"
-                  aria-valuetext={`${selectedYear}: ${activeYear.label}`}
-                  max={yearStops[yearStops.length - 1].year}
-                  min={yearStops[0].year}
-                  onChange={(event) => setSelectedYear(Number(event.currentTarget.value))}
-                  step="1"
-                  type="range"
-                  value={selectedYear}
-                />
-                <div className="farewell-flight-slider__years" aria-hidden="true">
-                  {yearStops.map((stop) => (
-                    <span data-active={selectedYear === stop.year} key={stop.year}>{stop.year}</span>
-                  ))}
-                </div>
-              </div>
-              <button
-                aria-label="Show the next year"
-                disabled={selectedYear === yearStops[yearStops.length - 1].year}
-                onClick={() => setSelectedYear((year) => Math.min(yearStops[yearStops.length - 1].year, year + 1))}
-                type="button"
-              >
-                →
-              </button>
-            </div>
-            <div className="farewell-route__footer">
-              <span>Drag or swipe the plane</span>
-              <strong>{activeYear.label} · {activeYear.detail}</strong>
-              <span>Use arrows for one year</span>
-            </div>
-          </div>
+          <YearSelector onYearChange={setSelectedYear} placement="top" selectedYear={selectedYear} />
 
         </section>
 
         <section className="farewell-memories" id="memories" aria-labelledby="memories-title">
           <header className="farewell-section-heading">
-            <p className="farewell-eyebrow">{selectedYear} · {activeYear.label}</p>
             <h2 id="memories-title">The {selectedYear} camera roll.</h2>
-            <p>Somewhere between the deadlines and the decks, we made a whole lot of good days.</p>
           </header>
 
           <div className="farewell-memory-grid" aria-live="polite">
-            {memories.map((memory, index) => (
-              <button
-                aria-label={`Open photo ${index + 1} of ${memories.length}`}
-                className="farewell-memory"
-                key={`${selectedYear}-${memory.image}`}
-                onClick={() => setPreviewIndex(index)}
-                type="button"
-              >
-                <img src={memory.image} alt={memory.alt} loading="lazy" />
-              </button>
+            {memoryRows.map((row) => (
+              <div className="farewell-memory-row" key={row[0].src}>
+                {row.map((memory) => {
+                  const index = memories.indexOf(memory);
+                  const birthdayPhoto = isBirthdayPhoto(memory);
+                  return (
+                    <button
+                      aria-label={`Open photo from ${memory.date}, ${index + 1} of ${memories.length}${birthdayPhoto ? ', birthday memory' : ''}`}
+                      className={`farewell-memory farewell-memory--${memory.orientation}`}
+                      key={memory.src}
+                      onClick={() => setPreviewIndex(index)}
+                      style={{ '--farewell-photo-ratio': memory.width / memory.height } as React.CSSProperties}
+                      type="button"
+                    >
+                      <img
+                        alt={memory.alt}
+                        decoding="async"
+                        height={memory.height}
+                        loading={index < 4 ? 'eager' : 'lazy'}
+                        src={memory.src}
+                        width={memory.width}
+                      />
+                      {birthdayPhoto && (
+                        <span className="farewell-memory__birthday-badge">🎂 Birthday</span>
+                      )}
+                      <span className="farewell-memory__date">{memory.date}</span>
+                    </button>
+                  );
+                })}
+              </div>
             ))}
           </div>
+
+          <YearSelector onYearChange={setSelectedYear} placement="bottom" selectedYear={selectedYear} />
 
           {previewIndex !== null && (
             <div
@@ -344,9 +348,34 @@ const FarewellPage: React.FC = () => {
               <img
                 alt={memories[previewIndex].alt}
                 onClick={(event) => event.stopPropagation()}
-                src={memories[previewIndex].image}
+                src={memories[previewIndex].src}
               />
-              <p>{String(previewIndex + 1).padStart(2, '0')} / {memories.length}</p>
+              <p>
+                <span>{memories[previewIndex].date}</span>
+                <span>{String(previewIndex + 1).padStart(2, '0')} / {memories.length}</span>
+              </p>
+              {isBirthdayPhoto(memories[previewIndex]) && (
+                <div
+                  className="farewell-birthday-shower"
+                  key={memories[previewIndex].src}
+                  aria-hidden="true"
+                >
+                  {birthdayCakes.map((_, index) => (
+                    <span
+                      key={index}
+                      style={{
+                        '--farewell-cake-delay': `${(index % 10) * 90}ms`,
+                        '--farewell-cake-drift': `${((index % 7) - 3) * 24}px`,
+                        '--farewell-cake-duration': `${1700 + (index % 6) * 170}ms`,
+                        '--farewell-cake-left': `${2 + ((index * 37) % 95)}%`,
+                        '--farewell-cake-size': `${1.7 + (index % 5) * 0.45}rem`,
+                      } as React.CSSProperties}
+                    >
+                      🎂
+                    </span>
+                  ))}
+                </div>
+              )}
               <button
                 aria-label="Next photo"
                 className="farewell-lightbox__arrow farewell-lightbox__arrow--next"
@@ -364,56 +393,56 @@ const FarewellPage: React.FC = () => {
 
         <section className="farewell-notes" id="notes" aria-labelledby="notes-title">
           <header className="farewell-section-heading farewell-section-heading--light">
-            <p className="farewell-eyebrow">PINNED TO YOUR NOTICEBOARD</p>
             <h2 id="notes-title">A few notes for the road.</h2>
-            <p>Read these whenever the newness feels a little too new.</p>
           </header>
 
           <div className="farewell-note-grid">
-            {notes.map((note) => (
-              <article className={`farewell-note farewell-note--${note.accent}`} key={note.author}>
-                <span className="farewell-note__pin" aria-hidden="true" />
-                <p>“{note.message}”</p>
-                <footer>
-                  <strong>{note.author}</strong>
-                  <span>{note.role}</span>
-                </footer>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="farewell-carry" aria-labelledby="carry-title">
-          <header className="farewell-section-heading">
-            <p className="farewell-eyebrow">YOUR VERY UNOFFICIAL PACKING LIST</p>
-            <h2 id="carry-title">Things to carry forward.</h2>
-          </header>
-
-          <div className="farewell-carry__grid">
-            <article>
-              <span>01</span>
-              <h3>Your curiosity</h3>
-              <p>The kind that turns “what if?” into everyone’s favorite project.</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>Your calm</h3>
-              <p>For snowy commutes, new beginnings, and the occasional mysterious error message.</p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>Our number</h3>
-              <p>For recommendations, reality checks, or an emergency dose of old-team chaos.</p>
-            </article>
+            {notes.map((note) => {
+              const isOpen = openNotes.has(note.author);
+              return (
+                <article
+                  className={`farewell-note farewell-note--${note.accent}`}
+                  data-open={isOpen}
+                  key={note.author}
+                >
+                  <button
+                    aria-label={`${isOpen ? 'Fold' : 'Open'} note from ${note.author}`}
+                    aria-pressed={isOpen}
+                    className="farewell-note__button"
+                    onClick={() => setOpenNotes((current) => {
+                      const next = new Set(current);
+                      if (next.has(note.author)) next.delete(note.author);
+                      else next.add(note.author);
+                      return next;
+                    })}
+                    type="button"
+                  >
+                    <span className="farewell-note__inner">
+                      <span aria-hidden={isOpen} className="farewell-note__face farewell-note__front">
+                        <span className="farewell-note__pin" aria-hidden="true" />
+                        <span className="farewell-note__front-copy">
+                          <span className="farewell-note__kicker">A note from</span>
+                          <strong>{note.author}</strong>
+                          <span className="farewell-note__hint">Click to unfold ↗</span>
+                        </span>
+                      </span>
+                      <span aria-hidden={!isOpen} className="farewell-note__face farewell-note__back">
+                        <span className="farewell-note__pin" aria-hidden="true" />
+                        <span className="farewell-note__message">“{note.message}”</span>
+                        <span className="farewell-note__footer">
+                          <strong>{note.author}</strong>
+                          <span>Click to fold back</span>
+                        </span>
+                      </span>
+                    </span>
+                  </button>
+                </article>
+              );
+            })}
           </div>
         </section>
 
         <section className="farewell-final" aria-labelledby="final-title">
-          <div className="farewell-final__stamp" aria-hidden="true">
-            PEK
-            <span>→</span>
-            YYZ
-          </div>
           <div className="farewell-final__copy">
             <p className="farewell-eyebrow">ONE LAST THING</p>
             <h2 id="final-title">Toronto has no idea how lucky it is.</h2>
@@ -421,8 +450,8 @@ const FarewellPage: React.FC = () => {
               Go make a life full of new favorite places, brave decisions, and stories worth retelling.
               We’ll be right here—cheering obnoxiously loudly.
             </p>
-            <button type="button" onClick={() => setCelebration((value) => value + 1)}>
-              Send Avery some love <span aria-hidden="true">♥</span>
+            <button type="button" onClick={sendLove}>
+              Send Clarissa some love <span aria-hidden="true">♥</span>
             </button>
             <p className="farewell-final__response" aria-live="polite">
               {celebration > 0 ? `Love sent${celebration > 1 ? ` × ${celebration}` : ''}. It travels well.` : '\u00a0'}
@@ -440,10 +469,11 @@ const FarewellPage: React.FC = () => {
       </main>
 
       <footer className="farewell-footer">
-        <p>Made by your Beijing crew · 2026</p>
-        <p>Sample names, notes, and photos for preview purposes.</p>
+        <p>Made by your Beijing crew</p>
         <a href="#top">Back to the beginning ↑</a>
       </footer>
+
+      <audio ref={laughAudioRef} preload="auto" src="/farewell/woman-laugh.mp3" />
     </div>
   );
 };
