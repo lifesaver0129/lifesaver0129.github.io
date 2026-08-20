@@ -68,8 +68,7 @@ const notes: Note[] = [
   },
   {
     author: 'Wenlong Ruan',
-    message:
-      'Different city. Same group chat. We are so proud of you, Clarissa—and so excited to see where your curiosity takes you next.',
+    message: '周三练不练？',
     accent: 'navy',
   },
 ];
