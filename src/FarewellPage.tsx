@@ -4,7 +4,9 @@ import './farewell.css';
 
 type Note = {
   author: string;
-  message: string;
+  message?: string;
+  image?: string;
+  imageAlt?: string;
   accent: string;
 };
 
@@ -27,48 +29,44 @@ const yearStops: YearStop[] = [
 const notes: Note[] = [
   {
     author: 'Ying Zhou',
-    message: '祝你早日找到大帅哥对象',
+    message: '早日找到大帅哥对象！',
     accent: 'coral',
   },
   {
     author: 'Jingwen Xu',
-    message:
-      'I will miss your unreasonably good questions, your emergency snack drawer, and the way you somehow fixed things before the rest of us noticed.',
+    message: '6点了 transfer去吗',
     accent: 'blue',
   },
   {
     author: 'Na Li',
-    message:
-      'This is not goodbye. It is merely a very inconvenient timezone change. Keep a seat for us by the lake.',
+    message: '我估计还要半小时 你先transfer',
     accent: 'yellow',
   },
   {
     author: 'Yuxing Hu',
-    message:
-      'You brought so much kindness to ordinary days. I hope this next chapter brings you the same joy you gave all of us.',
+    image: '/farewell/yuxing-reaction.png',
+    imageAlt: 'Close-up reaction face',
     accent: 'pink',
   },
   {
     author: 'Chunxue Wang',
-    message:
-      'May your winter coat be sturdy, your poutine warm, and your video calls only occasionally scheduled at impossible hours.',
+    message: '快来和我一起组队参赛，夺取排行榜冠军',
     accent: 'green',
   },
   {
     author: 'Zelin Liao',
-    message:
-      'Thank you for all the tiny acts of care that made this team feel like a team. We will carry that kindness forward.',
+    image: '/farewell/zelin-gold-face.png',
+    imageAlt: 'Golden grinning face',
     accent: 'coral',
   },
   {
     author: 'Hongyang Jiang',
-    message:
-      'Toronto gets your ideas, your laughter, and your legendary lunch recommendations. We expect regular updates on all three.',
+    message: '你踏马走辣🥵',
     accent: 'blue',
   },
   {
     author: 'Wenlong Ruan',
-    message: '周三练不练？',
+    message: '周三了 该打拳了',
     accent: 'navy',
   },
 ];
@@ -116,6 +114,7 @@ const createBalancedPhotoRows = (photos: FarewellPhoto[], compact: boolean) => {
 
 const isBirthdayPhoto = (photo: FarewellPhoto) => (
   photo.date.startsWith('March 6,')
+  || photo.date === 'March 7, 2023'
   || photo.date === 'March 12, 2023'
   || photo.date === 'March 7, 2025'
 );
@@ -129,6 +128,8 @@ type YearSelectorProps = {
 };
 
 const YearSelector: React.FC<YearSelectorProps> = ({ onYearChange, placement, selectedYear }) => {
+  const selectorRef = useRef<HTMLDivElement | null>(null);
+  const scrollFrameRef = useRef<number | null>(null);
   const activeYear = yearStops.find((stop) => stop.year === selectedYear) ?? yearStops[0];
   const firstYear = yearStops[0].year;
   const lastYear = yearStops[yearStops.length - 1].year;
@@ -136,10 +137,36 @@ const YearSelector: React.FC<YearSelectorProps> = ({ onYearChange, placement, se
   const isBottom = placement === 'bottom';
   const placementSuffix = isBottom ? ' at the end of the gallery' : '';
 
+  const changeYear = (year: number) => {
+    const selectorTop = isBottom ? selectorRef.current?.getBoundingClientRect().top : undefined;
+    onYearChange(year);
+
+    if (selectorTop === undefined) return;
+    if (scrollFrameRef.current !== null) window.cancelAnimationFrame(scrollFrameRef.current);
+
+    scrollFrameRef.current = window.requestAnimationFrame(() => {
+      scrollFrameRef.current = window.requestAnimationFrame(() => {
+        const nextSelectorTop = selectorRef.current?.getBoundingClientRect().top;
+        if (nextSelectorTop !== undefined) {
+          window.scrollBy({
+            behavior: 'instant' as ScrollBehavior,
+            top: nextSelectorTop - selectorTop,
+          });
+        }
+        scrollFrameRef.current = null;
+      });
+    });
+  };
+
+  useEffect(() => () => {
+    if (scrollFrameRef.current !== null) window.cancelAnimationFrame(scrollFrameRef.current);
+  }, []);
+
   return (
     <div
       aria-label={isBottom ? "Choose another year from Clarissa's journey" : "Choose a year from Clarissa's journey"}
       className={`farewell-route farewell-route--${placement}`}
+      ref={selectorRef}
     >
       <div className="farewell-route__summary">
         <span>PEK · Beijing</span>
@@ -150,7 +177,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ onYearChange, placement, se
         <button
           aria-label={`Show the previous year${placementSuffix}`}
           disabled={selectedYear === firstYear}
-          onClick={() => onYearChange(Math.max(firstYear, selectedYear - 1))}
+          onClick={() => changeYear(Math.max(firstYear, selectedYear - 1))}
           type="button"
         >
           ←
@@ -167,7 +194,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ onYearChange, placement, se
             aria-valuetext={`${selectedYear}: ${activeYear.label}`}
             max={lastYear}
             min={firstYear}
-            onChange={(event) => onYearChange(Number(event.currentTarget.value))}
+            onChange={(event) => changeYear(Number(event.currentTarget.value))}
             step="1"
             type="range"
             value={selectedYear}
@@ -181,7 +208,7 @@ const YearSelector: React.FC<YearSelectorProps> = ({ onYearChange, placement, se
         <button
           aria-label={`Show the next year${placementSuffix}`}
           disabled={selectedYear === lastYear}
-          onClick={() => onYearChange(Math.min(lastYear, selectedYear + 1))}
+          onClick={() => changeYear(Math.min(lastYear, selectedYear + 1))}
           type="button"
         >
           →
@@ -430,7 +457,15 @@ const FarewellPage: React.FC = () => {
                       </span>
                       <span aria-hidden={!isOpen} className="farewell-note__face farewell-note__back">
                         <span className="farewell-note__pin" aria-hidden="true" />
-                        <span className="farewell-note__message">{note.message}</span>
+                        {note.image ? (
+                          <img
+                            alt={note.imageAlt ?? ''}
+                            className="farewell-note__art"
+                            src={note.image}
+                          />
+                        ) : (
+                          <span className="farewell-note__message">{note.message}</span>
+                        )}
                         <span className="farewell-note__footer">
                           <strong>{note.author}</strong>
                           <span>Click to fold back</span>
