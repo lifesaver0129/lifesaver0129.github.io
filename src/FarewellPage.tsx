@@ -27,8 +27,7 @@ const yearStops: YearStop[] = [
 const notes: Note[] = [
   {
     author: 'Ying Zhou',
-    message:
-      'Thank you for making every hard problem feel solvable—and every quiet teammate feel heard. Toronto is getting one of the very best.',
+    message: '祝你早日找到大帅哥对象',
     accent: 'coral',
   },
   {
@@ -117,7 +116,9 @@ const createBalancedPhotoRows = (photos: FarewellPhoto[], compact: boolean) => {
 };
 
 const isBirthdayPhoto = (photo: FarewellPhoto) => (
-  photo.date.startsWith('March 6,') || photo.date === 'March 12, 2023'
+  photo.date.startsWith('March 6,')
+  || photo.date === 'March 12, 2023'
+  || photo.date === 'March 7, 2025'
 );
 
 const birthdayCakes = Array.from({ length: 30 });
@@ -430,7 +431,7 @@ const FarewellPage: React.FC = () => {
                       </span>
                       <span aria-hidden={!isOpen} className="farewell-note__face farewell-note__back">
                         <span className="farewell-note__pin" aria-hidden="true" />
-                        <span className="farewell-note__message">“{note.message}”</span>
+                        <span className="farewell-note__message">{note.message}</span>
                         <span className="farewell-note__footer">
                           <strong>{note.author}</strong>
                           <span>Click to fold back</span>

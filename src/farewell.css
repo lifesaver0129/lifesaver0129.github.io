@@ -717,7 +717,7 @@ body:has(.farewell-site) {
 
 .farewell-note__message {
   margin: 26px 0 32px;
-  font: 400 clamp(1.08rem, 1.45vw, 1.45rem)/1.35 var(--farewell-display);
+  font: 400 clamp(1.25rem, 1.75vw, 1.75rem)/1.3 var(--farewell-display);
 }
 
 .farewell-note__footer {
