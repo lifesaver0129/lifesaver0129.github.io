@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "import:farewell-photos": "node scripts/import-farewell-photos.mjs",
     "deploy:gh": "bash scripts/deploy-gh.sh"
   },
   "dependencies": {
