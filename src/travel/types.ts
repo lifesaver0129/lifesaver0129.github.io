@@ -31,6 +31,7 @@ export type TravelTheme = {
   paperRgb: string;
   accent: string;
   accentRgb: string;
+  highlight?: string;
   secondary: string;
 };
 

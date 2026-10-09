@@ -179,6 +179,7 @@ const TravelPage = ({ trip }: { trip: TravelConfig }) => {
     '--travel-paper-rgb': trip.theme.paperRgb,
     '--travel-accent': trip.theme.accent,
     '--travel-accent-rgb': trip.theme.accentRgb,
+    '--travel-highlight': trip.theme.highlight ?? trip.theme.accent,
     '--travel-secondary': trip.theme.secondary,
   } as CSSProperties;
 

@@ -63,6 +63,12 @@ a {
   display: block;
 }
 
+.travel-header,
+.travel-hero,
+.travel-footer {
+  --travel-accent: var(--travel-highlight);
+}
+
 .travel-header {
   position: absolute;
   top: 0;
